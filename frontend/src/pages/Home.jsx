@@ -44,7 +44,7 @@ const Home = () => {
       </nav>
 
       {/* Mission Section */}
-      <section className="bg-slate-200 px-16 py-28 text-center">
+      <section className="bg-slate-200 px-16 pt-44 pb-28 text-center">
         {/* Mission Heading */}
         <h1 className="text-5xl font-semibold mb-8">OUR MISSION</h1>
         {/* Mission Description */}
@@ -63,7 +63,6 @@ const Home = () => {
           Our approach is based on mutual respect, open communication, and a
           shared commitment to excellence. We strive to understand our partners'
           needs and goals so that we can work together to grow our business.
-          success.
         </p>
         <p>
           At the heart of our mission is the belief that partnerships should be
@@ -196,7 +195,7 @@ const Home = () => {
         <div className="flex justify-center">
           <div className="w-80 border border-black rounded h-44 px-10 py-6 mx-4">
             <div className="flex justify-center mb-4">
-              <img  className="h-12 w-12" src={group} alt="people" />
+              <img className="h-12 w-12" src={group} alt="people" />
             </div>
             <h4>Number Of Investors</h4>
             <h1 className="text-2xl font-semibold mt-2">4</h1>
@@ -217,6 +216,114 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Funding Section */}
+      <section className="px-16 py-28 text-center">
+        {/* Funding Section Heading */}
+        <h1 className="text-3xl font-semibold mb-8">NUSRAH FUNDING</h1>
+        {/* Funding Section Description */}
+        <p className="mb-4">
+          Nusrah Funding is a humanitarian organization that provides aid and
+          assistance to people in need, regardless of their race, religion, or
+          gender. Their projects include emergency relief efforts, education,
+          healthcare, and livelihood programs. You can donate to Islamic Relief
+          to support their ongoing efforts to help those in need around the
+          world.
+        </p>
+        <p className="mb-4">
+          There are millions of orphans around the world who are in need of
+          support and care. By sponsoring an orphan, you can provide them with
+          access to education, healthcare, and basic necessities like food and
+          shelter. Many organizations offer orphan sponsorship programs,
+          including Islamic Relief, Human Appeal, and Penny Appeal.
+        </p>
+        <p className="mb-4">
+          Access to clean water is a basic human right that many people around
+          the world do not have. By donating to organizations that provide clean
+          water projects, you can help communities gain access to safe and clean
+          drinking water.
+        </p>
+        <p className="mb-4">
+          There are millions of refugees around the world who have been
+          displaced from their homes due to conflict, persecution, or natural
+          disasters. By supporting organizations that provide refugee support,
+          you can help these vulnerable individuals with shelter, food,
+          healthcare, and other basic needs.
+        </p>
+        {/* Funding Section Button */}
+        <div>
+          <button className="bg-orange-500 py-2 px-3 rounded text-white font-semibold text-sm">
+            DONATE NOW
+          </button>
+        </div>
+      </section>
+
+      {/* footer */}
+      <footer className="px-16 pt-28 bg-indigo-950 text-white">
+        <div className="flex justify-between">
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Our Location</h3>
+            <div>
+              <p>Dhaka</p>
+            </div>
+            <div>
+              <p>+880 1823432432</p>
+            </div>
+            <div>
+              <p>support@samarabizfunding.com</p>
+            </div>
+            <div>
+              <p>Bangladesh</p>
+            </div>
+          </div>
+          <div className="mt-9">
+            <div>
+              <p>FAQ</p>
+            </div>
+            <div>
+              <p>Contact Us</p>
+            </div>
+            <div>
+              <p>About Us</p>
+            </div>
+            <div>
+              <p>Terms & Conditions</p>
+            </div>
+          </div>
+          <div className="mt-9">
+            <div>
+              <p>Projects</p>
+            </div>
+            <div>
+              <p>Investors</p>
+            </div>
+            <div>
+              <p>Funding</p>
+            </div>
+            <div>
+              <p>Success Story</p>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Social Networks</h3>
+            <div>
+              <p>facebook.com/samarabizfunding</p>
+            </div>
+            <div>
+              <p>twitter.com/samarabizfunding</p>
+            </div>
+            <div>
+              <p>+880 1823432432</p>
+            </div>
+            <div>
+              <p>youtube.com/samarabizfunding</p>
+            </div>
+          </div>
+        </div>
+        <div className="text-white mt-28 text-center pb-4">
+          <p>SAMARABIZ-FUNDING © 2024 ALL RIGHTS RESERVED​</p>
+        </div>
+      </footer>
     </div>
   );
 };

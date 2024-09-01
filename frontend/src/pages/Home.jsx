@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/images/samarabiz-logo.svg";
 import people1 from "../assets/images/people1.jpg";
 import people2 from "../assets/images/people2.jpg";
@@ -7,8 +8,16 @@ import people5 from "../assets/images/people5.jpg";
 import money from "../assets/images/money.png";
 import stack from "../assets/images/stack.png";
 import group from "../assets/images/group.png";
+import project1 from "../assets/images/project1.jpg";
+import project2 from "../assets/images/project2.jpg";
+import project3 from "../assets/images/project3.jpg";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate("/login");
+  }
   return (
     <div>
       {/* nav section */}
@@ -37,8 +46,8 @@ const Home = () => {
         </div>
         {/* sign in button */}
         <div>
-          <button className="bg-white py-1 px-2 text-sm font-semibold rounded">
-            SIGN IN NOW
+          <button onClick={handleLoginClick} className="bg-white py-1 px-2 text-sm font-semibold rounded">
+            LOGIN NOW
           </button>
         </div>
       </nav>
@@ -78,6 +87,110 @@ const Home = () => {
         {/* Projects Header */}
         <h1 className="text-3xl font-semibold mb-8">OUR PROJECTS</h1>
         {/* Projects Cards */}
+        <div className="flex justify-between">
+          <div className="w-[440px] h-auto border rounded p-4">
+            <div>
+              <img className="h-[270px]" src={project1} alt="project" />
+            </div>
+            <h3 className="text-left text-2xl font-semibold ml-2 my-4">
+              Billing Service Project
+            </h3>
+            <div className="flex justify-between">
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>125000 AED</h4>
+                <h4>Investment Required</h4>
+              </div>
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>200 AED</h4>
+                <h4>Profit Amount</h4>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>10/6</h4>
+                <h4>Total Share/Sold Share</h4>
+              </div>
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>3</h4>
+                <h4>No. of Investors</h4>
+              </div>
+            </div>
+            <p className="text-left p-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+              perspiciatis culpa, iusto explicabo vero quas ut? Necessitatibus
+              odio, ullam ipsum in veritatis sunt consequuntur nobis labore cum
+              animi quisquam laborum?
+            </p>
+          </div>
+          <div className="w-[440px] h-auto border rounded p-4">
+            <div>
+              <img className="h-[270px]" src={project2} alt="project" />
+            </div>
+            <h3 className="text-left text-2xl font-semibold ml-2 my-4">
+              Billing Service Project
+            </h3>
+            <div className="flex justify-between">
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>125000 AED</h4>
+                <h4>Investment Required</h4>
+              </div>
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>200 AED</h4>
+                <h4>Profit Amount</h4>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>10/6</h4>
+                <h4>Total Share/Sold Share</h4>
+              </div>
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>3</h4>
+                <h4>No. of Investors</h4>
+              </div>
+            </div>
+            <p className="text-left p-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+              perspiciatis culpa, iusto explicabo vero quas ut? Necessitatibus
+              odio, ullam ipsum in veritatis sunt consequuntur nobis labore cum
+              animi quisquam laborum?
+            </p>
+          </div>
+          <div className="w-[440px] h-auto border rounded p-4">
+            <div>
+              <img className="h-[270px]" src={project3} alt="project" />
+            </div>
+            <h3 className="text-left text-2xl font-semibold ml-2 my-4">
+              Billing Service Project
+            </h3>
+            <div className="flex justify-between">
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>125000 AED</h4>
+                <h4>Investment Required</h4>
+              </div>
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>200 AED</h4>
+                <h4>Profit Amount</h4>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>10/6</h4>
+                <h4>Total Share/Sold Share</h4>
+              </div>
+              <div className="border p-2 rounded m-2 w-52">
+                <h4>3</h4>
+                <h4>No. of Investors</h4>
+              </div>
+            </div>
+            <p className="text-left p-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+              perspiciatis culpa, iusto explicabo vero quas ut? Necessitatibus
+              odio, ullam ipsum in veritatis sunt consequuntur nobis labore cum
+              animi quisquam laborum?
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* How We Work Section */}

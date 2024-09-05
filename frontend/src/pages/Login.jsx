@@ -12,15 +12,47 @@ import {
   FormControlLabel,
   Link,
 } from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
 
 const Login = () => {
+  // state to store username and password
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  })
+
+  // event handler to capture input data
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
     navigate("/");
   };
 
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    const {username, password} = formData;
+    try {
+      const res = await axios.post("http://localhost:3000/admin/login", {
+        username,
+        password,
+      });
+      localStorage.setItem("token", res.data.token);
+
+      // redirect to admin dashboard
+      navigate('/admin/dashboard');
+    } catch (error) {
+      console.error("login failed", error.response.data);
+    }
+    y;
+  };
 
   return (
     <div>
@@ -63,14 +95,20 @@ const Login = () => {
             variant="outlined"
             fullWidth
             margin="normal"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
             required
           />
           <TextField
             label="Password"
             type="password"
             variant="outlined"
+            name="password"
             fullWidth
             margin="normal"
+            value={formData.password}
+            onChange={handleChange}
             required
           />
           <FormControlLabel

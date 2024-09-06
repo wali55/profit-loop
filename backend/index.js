@@ -12,10 +12,7 @@ const cors = require('cors'); // Import CORS
 
 // connect db
 mongoose
-  .connect("mongodb+srv://walisantunu:WkNefBVfgtFPVYDD@cluster0.8cpsi.mongodb.net/", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb+srv://walisantunu:WkNefBVfgtFPVYDD@cluster0.8cpsi.mongodb.net/test")
   .then(() => console.log("mongodb connected"))
   .catch((err) => console.error("mongodb connection error", err));
 
@@ -100,7 +97,7 @@ app.post("/investor/login", async (req, res) => {
   const token = jwt.sign({ username: investor.username }, JWT_SECRET, {
     expiresIn: "1h",
   });
-  return res.json(token, { role: "investor" });
+  return res.json({token,  role: "investor" });
 });
 
 app.listen(3000, () => {

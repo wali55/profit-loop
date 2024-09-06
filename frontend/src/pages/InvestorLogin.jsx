@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 
-const Login = () => {
+const InvestorLogin = () => {
   // state to store username and password
   const [formData, setFormData] = useState({
     username: '',
@@ -40,14 +40,14 @@ const Login = () => {
   const handleLogin = async () => {
     const {username, password} = formData;
     try {
-      const res = await axios.post("http://localhost:3000/admin/login", {
+      const res = await axios.post("http://localhost:3000/investor/login", {
         username,
         password,
       });
       localStorage.setItem("token", res.data.token);
 
       // redirect to admin dashboard
-      navigate('/admin/dashboard');
+      navigate('/investor/dashboard');
     } catch (error) {
       console.error("login failed", error.response.data);
     }
@@ -87,7 +87,7 @@ const Login = () => {
       >
         <Box component="form" sx={{ width: 300, textAlign: "center" }}>
           <Typography variant="h5" gutterBottom>
-            Login to SamaraBiz
+            Investor Login to SamaraBiz
           </Typography>
           <TextField
             label="Email/Username"
@@ -121,7 +121,7 @@ const Login = () => {
             sx={{ marginTop: 2, backgroundColor: "#3A1078" }}
             onClick={handleLogin}
           >
-            Login
+            Investor Login
           </Button>
           <Grid2 container justifyContent="center" sx={{ marginTop: 2 }}>
             <Link href="#" variant="body2">
@@ -137,4 +137,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default InvestorLogin;

@@ -11,6 +11,9 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import InvestorLogin from "./pages/InvestorLogin.jsx";
+import InvestorDashboard from "./pages/InvestorDashboard.jsx";
+
 
 
 const router = createBrowserRouter([
@@ -29,6 +32,14 @@ const router = createBrowserRouter([
   {
     path: "/admin/dashboard",
     element: <AdminDashboard />
+  },
+  {
+    path: "/investor/login",
+    element: <InvestorLogin />
+  },
+  {
+    path: "/investor/dashboard",
+    element: <InvestorDashboard />
   }
 ]);
 

@@ -26,14 +26,14 @@ app.use(cors());
 
 // auth middleware for protected routes
 const authMiddleware = (req, res, next) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
+  const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ error: "Access denied" });
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
+    req.user = decoded; // attach investors id to the request 
     next();
   } catch (error) {
     return res.status(400).json({ error: "Invalid token" });
@@ -94,11 +94,23 @@ app.post("/investor/login", async (req, res) => {
   }
 
   // create jwt token
-  const token = jwt.sign({ username: investor.username }, JWT_SECRET, {
+  const token = jwt.sign({ id: investor._id }, JWT_SECRET, {
     expiresIn: "1h",
   });
   return res.json({token,  role: "investor" });
 });
+
+// fetching investor's data for investor's dashboard
+app.get('/investor/dashboard', authMiddleware, async (req, res) => {
+  // req.user.id is the investor's unique id from the jwt
+  const investor = await Investor.findById(req.user.id);
+
+  if (!investor) {
+    return res.status(404).json({msg: 'Investor not found'})
+  }
+
+  res.status(200).json({investor});
+})
 
 app.listen(3000, () => {
   console.log("listening to port 3000");

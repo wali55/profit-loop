@@ -16,8 +16,13 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate("/admin/login");
   }
+
+  const handleInvestorLoginClick = () => {
+    navigate('/investor/login');
+  }
+
   return (
     <div>
       {/* nav section */}
@@ -46,8 +51,11 @@ const Home = () => {
         </div>
         {/* sign in button */}
         <div>
-          <button onClick={handleLoginClick} className="bg-white py-1 px-2 text-sm font-semibold rounded">
-            LOGIN NOW
+          <button onClick={handleLoginClick} className="bg-white py-1 px-2 mr-2 text-sm font-semibold rounded">
+            ADMIN LOGIN 
+          </button>
+          <button onClick={handleInvestorLoginClick} className="bg-white py-1 px-2 text-sm font-semibold rounded">
+            INVESTOR LOGIN 
           </button>
         </div>
       </nav>

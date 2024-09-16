@@ -18,18 +18,18 @@ import { useState } from "react";
 const Login = () => {
   // state to store username and password
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  })
+    userName: "",
+    password: "",
+  });
 
   // event handler to capture input data
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const navigate = useNavigate();
 
@@ -38,16 +38,23 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    const {username, password} = formData;
+    const { userName, password } = formData;
     try {
-      const res = await axios.post("http://localhost:3000/admin/login", {
-        username,
-        password,
-      });
+      const res = await axios.post(
+        "https://samaraiz-node-backend.onrender.com/api/v1/login",
+        {
+          userName,
+          password,
+        }
+      );
       localStorage.setItem("token", res.data.token);
 
       // redirect to admin dashboard
-      navigate('/admin/dashboard');
+      if (userName === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/investor/dashboard");
+      }
     } catch (error) {
       console.error("login failed", error.response.data);
     }
@@ -68,9 +75,9 @@ const Login = () => {
             sx={{ height: 60 }}
           />
           <Button
-            variant="contained"
+            variant="outlined"
             size="small"
-            sx={{ backgroundColor: "white", color: "black" }}
+            sx={{ borderColor: "white", color: "white" }}
             onClick={handleHomeClick}
           >
             Back to Home
@@ -79,23 +86,31 @@ const Login = () => {
       </AppBar>
 
       {/* Form Section */}
-      <Grid2
-        container
-        justifyContent="center"
-        alignItems="center"
-        sx={{ height: "80vh" }}
-      >
-        <Box component="form" sx={{ width: 300, textAlign: "center" }}>
+      
+        <Box component="form" sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            maxWidth: "500px",
+            margin: "0 auto",
+            p: 3,
+            borderRadius: 2,
+            boxShadow: 3,
+            backgroundColor: "white",
+            mt: 10,
+            textAlign: 'center'
+          }}>
           <Typography variant="h5" gutterBottom>
             Login to SamaraBiz
           </Typography>
           <TextField
-            label="Email/Username"
+            label="Email/UserName"
             variant="outlined"
             fullWidth
             margin="normal"
-            name="username"
-            value={formData.username}
+            name="userName"
+            size="small"
+            value={formData.userName}
             onChange={handleChange}
             required
           />
@@ -104,6 +119,7 @@ const Login = () => {
             type="password"
             variant="outlined"
             name="password"
+            size="small"
             fullWidth
             margin="normal"
             value={formData.password}
@@ -118,21 +134,19 @@ const Login = () => {
           <Button
             variant="contained"
             fullWidth
+            size="small"
             sx={{ marginTop: 2, backgroundColor: "#3A1078" }}
             onClick={handleLogin}
           >
             Login
           </Button>
-          <Grid2 container justifyContent="center" sx={{ marginTop: 2 }}>
             <Link href="#" variant="body2">
               Forgot Password?
             </Link>
             <Link href="/register" variant="body2" sx={{ marginTop: 1 }}>
               Don't have an account? Register
             </Link>
-          </Grid2>
         </Box>
-      </Grid2>
     </div>
   );
 };

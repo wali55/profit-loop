@@ -17,30 +17,29 @@ import InvestorDashboard from "./pages/InvestorDashboard.jsx";
 
 
 const router = createBrowserRouter([
+  // common
   {
     path: "/",
     element: <Home />,
   },
   {
-    path: "/admin/login",
+    path: "/login",
     element: <Login />
   },
+  // admin
+  {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />
+  },
+  // investor
   {
     path: "/register",
     element: <Register />
   },
   {
-    path: "/admin/dashboard",
-    element: <AdminDashboard />
-  },
-  {
-    path: "/investor/login",
-    element: <InvestorLogin />
-  },
-  {
     path: "/investor/dashboard",
     element: <InvestorDashboard />
-  }
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(

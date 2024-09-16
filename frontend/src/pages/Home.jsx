@@ -11,17 +11,15 @@ import group from "../assets/images/group.png";
 import project1 from "../assets/images/project1.jpg";
 import project2 from "../assets/images/project2.jpg";
 import project3 from "../assets/images/project3.jpg";
+import {Button} from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate("/admin/login");
+    navigate("/login");
   }
 
-  const handleInvestorLoginClick = () => {
-    navigate('/investor/login');
-  }
 
   return (
     <div>
@@ -51,12 +49,9 @@ const Home = () => {
         </div>
         {/* sign in button */}
         <div>
-          <button onClick={handleLoginClick} className="bg-white py-1 px-2 mr-2 text-sm font-semibold rounded">
-            ADMIN LOGIN 
-          </button>
-          <button onClick={handleInvestorLoginClick} className="bg-white py-1 px-2 text-sm font-semibold rounded">
-            INVESTOR LOGIN 
-          </button>
+          <Button onClick={handleLoginClick}  variant="outlined" size="small" sx={{borderColor: 'white', color: 'white'}} >
+            LOGIN 
+          </Button>
         </div>
       </nav>
 

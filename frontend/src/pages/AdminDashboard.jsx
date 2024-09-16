@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,11 +9,27 @@ import {
   Typography,
   Card,
   CardContent,
-  Grid2
+  Grid2,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  FormControl,
+  InputLabel,
+  TablePagination,
 } from "@mui/material";
 import Logo from "../assets/images/samarabiz-logo.svg";
 import { useNavigate } from "react-router-dom";
-import {Work, AccountBalance, AttachMoney, MoneyOff} from "@mui/icons-material";
+import {
+  Work,
+  AccountBalance,
+  AttachMoney,
+  MoneyOff,
+} from "@mui/icons-material";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -21,6 +37,35 @@ const AdminDashboard = () => {
   // state for the open menus
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
+  const [status, setStatus] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from backend and set it in the state (simulate fetch)
+    // Assuming getProjects() fetches the project data
+    fetchProjectData();
+  }, [status]);
+
+  const fetchProjectData = async () => {
+    // Here you'd fetch the projects based on the status filter
+    const data = await getProjects(status); // Replace with actual API call
+    setProjects(data);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+  };
 
   // open the submenus
   const handleMenuOpen = (event, menuName) => {
@@ -42,7 +87,7 @@ const AdminDashboard = () => {
   return (
     <div>
       {/* Nav section */}
-      <AppBar position="static" sx={{ backgroundColor: "#3A1078" }}>
+      <AppBar position="sticky" sx={{ backgroundColor: "#3A1078" }}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* logo on the left */}
           <Box
@@ -319,7 +364,12 @@ const AdminDashboard = () => {
           </Box>
 
           {/* Logout button on the right */}
-          <Button color="inherit" variant="outlined" onClick={handleLogout}>
+          <Button
+            color="inherit"
+            variant="outlined"
+            onClick={handleLogout}
+            size="small"
+          >
             Logout
           </Button>
         </Toolbar>
@@ -328,10 +378,10 @@ const AdminDashboard = () => {
       {/* Card Section */}
       <Grid2 container spacing={3} padding={3}>
         {/* Card 1 No. Of Projects */}
-        <Grid2 item size={{xs: 12, md: 6}}>
-          <Card sx={{textAlign: 'center'}}>
+        <Grid2 item size={{ xs: 12, md: 6 }}>
+          <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <Work sx={{fontSize: 40, color: 'purple'}} />
+              <Work sx={{ fontSize: 40, color: "purple" }} />
               <Typography variant="body2" color="textSecondary">
                 No. Of Projects
               </Typography>
@@ -343,10 +393,10 @@ const AdminDashboard = () => {
         </Grid2>
 
         {/* Card 2 Total Withdrawn */}
-        <Grid2 item size={{xs: 12, md: 6}}>
-          <Card sx={{textAlign: 'center'}}>
+        <Grid2 item size={{ xs: 12, md: 6 }}>
+          <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <MoneyOff sx={{fontSize: 40, color: 'purple'}} />
+              <MoneyOff sx={{ fontSize: 40, color: "purple" }} />
               <Typography variant="body2" color="textSecondary">
                 Total Withdrawn
               </Typography>
@@ -358,10 +408,10 @@ const AdminDashboard = () => {
         </Grid2>
 
         {/* Card 2 Total Investment */}
-        <Grid2 item size={{xs: 12, md: 6}}>
-          <Card sx={{textAlign: 'center'}}>
+        <Grid2 item size={{ xs: 12, md: 6 }}>
+          <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <AccountBalance sx={{fontSize: 40, color: 'purple'}} />
+              <AccountBalance sx={{ fontSize: 40, color: "purple" }} />
               <Typography variant="body2" color="textSecondary">
                 Total Investment
               </Typography>
@@ -373,10 +423,10 @@ const AdminDashboard = () => {
         </Grid2>
 
         {/* Card 2 Total Earning */}
-        <Grid2 item size={{xs: 12, md: 6}}>
-          <Card sx={{textAlign: 'center'}}>
+        <Grid2 item size={{ xs: 12, md: 6 }}>
+          <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <AttachMoney sx={{fontSize: 40, color: 'purple'}} />
+              <AttachMoney sx={{ fontSize: 40, color: "purple" }} />
               <Typography variant="body2" color="textSecondary">
                 Total Earning
               </Typography>
@@ -387,6 +437,80 @@ const AdminDashboard = () => {
           </Card>
         </Grid2>
       </Grid2>
+
+      {/* Project List */}
+      <Box sx={{ padding: 3 }}>
+        {/* Project List Heading */}
+        <Typography variant="h4" align="center" gutterBottom>
+          Project List
+        </Typography>
+
+        {/* Status Filter */}
+        <Box sx={{ marginBottom: 2 }}>
+          <FormControl
+            fullWidth
+            variant="outlined"
+            sx={{ width: 200 }}
+            size="small"
+          >
+            <InputLabel id="status-label">Status</InputLabel>
+            <Select
+              labelId="status-label"
+              value={status}
+              onChange={handleStatusChange}
+              label="Status"
+            >
+              <MenuItem value="draft">Draft</MenuItem>
+              <MenuItem value="available">Available</MenuItem>
+              <MenuItem value="sold-out">Sold Out</MenuItem>
+              <MenuItem value="booked">Booked</MenuItem>
+              <MenuItem value="matured">Matured</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+
+        {/* Table */}
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Project Name</TableCell>
+                <TableCell>Project Value</TableCell>
+                <TableCell>Project Recalc. Value</TableCell>
+                <TableCell>Invested Amount</TableCell>
+                <TableCell>Investor's Earning</TableCell>
+                <TableCell>Launch Date</TableCell>
+                <TableCell>Mature Date</TableCell>
+                <TableCell>Status</TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              <TableRow>
+                <TableCell>Billing Service September 2024</TableCell>
+                <TableCell>250000 AED</TableCell>
+                <TableCell>200000 AED</TableCell>
+                <TableCell>125000 AED</TableCell>
+                <TableCell>1000 AED</TableCell>
+                <TableCell>09-13-2024</TableCell>
+                <TableCell>09-14-2024</TableCell>
+                <TableCell>Matured</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+
+          {/* Pagination */}
+          <TablePagination 
+            component="div"
+            count={projects.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 25, 50]}
+          />
+        </TableContainer>
+      </Box>
     </div>
   );
 };

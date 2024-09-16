@@ -20,9 +20,10 @@ const Register = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    username: "",
+    userName: "",
     email: "",
     password: "",
+    confirmPassword: ""
   });
   const navigate = useNavigate();
 
@@ -39,16 +40,17 @@ const Register = () => {
   };
 
   const handleRegister = async () => {
-    const { firstName, lastName, username, email, password } = formData;
+    const { firstName, lastName, userName, email, password, confirmPassword } = formData;
     try {
-      const res = await axios.post("http://localhost:3000/investor/register", {
+      const res = await axios.post("https://samaraiz-node-backend.onrender.com/api/v1/register", {
         firstName,
         lastName,
-        username,
+        userName,
         email,
         password,
+        confirmPassword
       });
-      navigate("/investor/login");
+      navigate("/login");
     } catch (error) {
       console.error("registration failed", error.response.data);
     }
@@ -69,9 +71,9 @@ const Register = () => {
             sx={{ height: 60 }}
           />
           <Button
-            variant="contained"
+            variant="outlined"
             size="small"
-            sx={{ backgroundColor: "white", color: "black" }}
+            sx={{ borderColor: "white", color: "white" }}
             onClick={handleHomeClick}
           >
             Back to Home
@@ -80,7 +82,7 @@ const Register = () => {
       </AppBar>
 
       {/* Registration Form Section */}
-      <Container sx={{ mt: 15 }}>
+      <Container sx={{ mt: 10 }}>
         <Box
           component="form"
           sx={{
@@ -109,12 +111,14 @@ const Register = () => {
             name="firstName"
             onChange={handleChange}
             value={formData.firstName}
+            size="small"
             required
           />
           <TextField
             label="Last Name"
             variant="outlined"
             name="lastName"
+            size="small"
             onChange={handleChange}
             value={formData.lastName}
             required
@@ -122,15 +126,17 @@ const Register = () => {
           <TextField
             label="Username"
             variant="outlined"
-            name="username"
+            name="userName"
+            size="small"
             onChange={handleChange}
-            value={formData.username}
+            value={formData.userName}
             required
           />
           <TextField
             label="Email"
             variant="outlined"
             name="email"
+            size="small"
             onChange={handleChange}
             value={formData.email}
             type="email"
@@ -140,6 +146,7 @@ const Register = () => {
             label="Password"
             variant="outlined"
             name="password"
+            size="small"
             onChange={handleChange}
             value={formData.password}
             type="password"
@@ -148,22 +155,25 @@ const Register = () => {
           <TextField
             label="Confirm Password"
             variant="outlined"
-            name="password"
+            name="confirmPassword"
+            size="small"
             onChange={handleChange}
-            value={formData.password}
+            value={formData.confirmPassword}
             type="password"
             required
           />
 
           <FormControlLabel
+            size="small"
             control={<Checkbox />}
             label="I have read the terms & conditions"
           />
-          <FormControlLabel control={<Checkbox />} label="I agree & continue" />
-          <FormControlLabel control={<Checkbox />} label="Remember me" />
+          <FormControlLabel size="small" control={<Checkbox />} label="I agree & continue" />
+          <FormControlLabel size="small" control={<Checkbox />} label="Remember me" />
 
           <Button
             variant="contained"
+            size="small"
             sx={{ backgroundColor: "#3A1078" }}
             onClick={handleRegister}
           >

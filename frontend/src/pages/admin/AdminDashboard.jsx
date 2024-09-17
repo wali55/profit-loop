@@ -22,7 +22,7 @@ import {
   InputLabel,
   TablePagination,
 } from "@mui/material";
-import Logo from "../assets/images/samarabiz-logo.svg";
+import Logo from "../../assets/images/samarabiz-logo.svg";
 import { useNavigate } from "react-router-dom";
 import {
   Work,
@@ -47,6 +47,8 @@ const AdminDashboard = () => {
     // Assuming getProjects() fetches the project data
     fetchProjectData();
   }, [status]);
+
+  function getProjects() {}
 
   const fetchProjectData = async () => {
     // Here you'd fetch the projects based on the status filter
@@ -80,8 +82,13 @@ const AdminDashboard = () => {
 
   //logout function
   const handleLogout = () => {
-    // logout logic
-    navigate("/admin/login");
+    // remove token token, user ID, role from local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("role");
+
+    // redirect to login page
+    navigate('/login');
   };
 
   return (
@@ -502,7 +509,7 @@ const AdminDashboard = () => {
           {/* Pagination */}
           <TablePagination 
             component="div"
-            count={projects.length}
+            count={projects?.length}
             page={page}
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}

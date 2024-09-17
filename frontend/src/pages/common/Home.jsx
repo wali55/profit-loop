@@ -1,19 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import Logo from "../assets/images/samarabiz-logo.svg";
-import people1 from "../assets/images/people1.jpg";
-import people2 from "../assets/images/people2.jpg";
-import people3 from "../assets/images/people3.jpg";
-import people4 from "../assets/images/people4.jpg";
-import people5 from "../assets/images/people5.jpg";
-import money from "../assets/images/money.png";
-import stack from "../assets/images/stack.png";
-import group from "../assets/images/group.png";
-import project1 from "../assets/images/project1.jpg";
-import project2 from "../assets/images/project2.jpg";
-import project3 from "../assets/images/project3.jpg";
+import Logo from "../../assets/images/samarabiz-logo.svg";
+import people1 from "../../assets/images/people1.jpg";
+import people2 from "../../assets/images/people2.jpg";
+import people3 from "../../assets/images/people3.jpg";
+import people4 from "../../assets/images/people4.jpg";
+import people5 from "../../assets/images/people5.jpg";
+import money from "../../assets/images/money.png";
+import stack from "../../assets/images/stack.png";
+import group from "../../assets/images/group.png";
+import project1 from "../../assets/images/project1.jpg";
+import project2 from "../../assets/images/project2.jpg";
+import project3 from "../../assets/images/project3.jpg";
 import {Button} from "@mui/material";
 
 const Home = () => {
+  
   const navigate = useNavigate();
 
   const handleLoginClick = () => {

@@ -17,14 +17,9 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-// redux
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../redux/slices/authSlice";
 
-const InvestorNavbar = () => {
-  // redux
-  const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
+const InvestorNavbar = ({userData}) => {
+  
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
@@ -244,7 +239,7 @@ const InvestorNavbar = () => {
             sx={{ display: { md: "flex", xs: "none" }, alignItems: "center" }}
           >
             <Typography sx={{ marginRight: 2 }}>
-              Hi, {user?.lastName}
+              Hi, {userData?.user?.lastName}
             </Typography>
             <Button
               size="small"

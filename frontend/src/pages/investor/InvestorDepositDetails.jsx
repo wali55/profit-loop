@@ -16,6 +16,15 @@ import {
   MenuItem,
   Select,
   Box,
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell,
+  TablePagination,
+  Paper,
+  Container
 } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AddCardIcon from "@mui/icons-material/AddCard";
@@ -23,37 +32,37 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import { useSnackbar } from "notistack";
 
 const InvestorDepositDetails = () => {
-    // Initial form data state
-    const initialFormData = {
-      depositAmount: null,
-      bankName: '',
-      branchName: '',
-      accountNumber: '',
-      accountHolderName: '',
-      region: ''
-    };
+  // retrieve token and userId from localStorage
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  // Initial form data state
+  const initialFormData = {
+    depositAmount: null,
+    bankName: "",
+    branchName: "",
+    accountNumber: "",
+    accountHolderName: "",
+    region: "",
+  };
 
   // notification
   const { enqueueSnackbar } = useSnackbar();
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  // token
-  const [token, setToken] = useState("");
   // create deposit from
   const [open, setOpen] = useState(false);
   const [depositType, setDepositType] = useState("CASH");
   const [formData, setFormData] = useState(initialFormData);
+  // deposit data
+  const [depositData, setDepositData] = useState([]);
+  // pagination
+  const [page, setPage] = useState(0); // current page number (0 indexed)
+  const [rowsPerPage, setRowsPerPage] = useState(10); // number of rows per page
+  const [totalRows, setTotalRows] = useState(0); // total number of rows from API
 
   // get the user id and
   useEffect(() => {
-    // retrieve token and userId from localStorage
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-
-    // set token to local state
-    setToken(token);
-
     // if no token or userId found then I can send redirect or error message
     if (!token || !userId) {
       console.error("No token or userId found");
@@ -90,13 +99,46 @@ const InvestorDepositDetails = () => {
     fetchUserData();
   }, []);
 
+  // fetch deposit data function
+  const fetchDepositData = async () => {
+    try {
+      const response = await fetch(
+        `https://samaraiz-node-backend.onrender.com/api/v1/deposit?investorId=${userId}&pagination=true&pageNumber=${
+          page + 1
+        }&rowPerPage=${rowsPerPage}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to get the deposit data");
+
+      const data = await response.json();
+      console.log("dep data", data.data.results);
+      setDepositData(data?.data?.results || []);
+      setTotalRows(data?.data?.results?.length || 0);
+    } catch (error) {
+      console.error("Error when fetching deposit data", error);
+    }
+  };
+
+  // get all deposit data of the user
+  useEffect(() => {
+    if (!token || !userId) return;
+    fetchDepositData();
+  }, [page, rowsPerPage]);
+
   // handle open/close dialog (of create deposit)
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => {
     // Clear form fields when the dialog closes
-    setFormData(initialFormData); 
-    setDepositType('CASH');
-    setOpen(false)
+    setFormData(initialFormData);
+    setDepositType("CASH");
+    setOpen(false);
   };
 
   // handle form changes (of create deposit)
@@ -162,10 +204,22 @@ const InvestorDepositDetails = () => {
       enqueueSnackbar("Deposit request sent successfully.", {
         variant: "success",
       });
+      fetchDepositData();
       handleClose(); // close the create deposit dialog
     } catch (err) {
       enqueueSnackbar("Error: " + err.message, { variant: "error" });
     }
+  };
+
+  // handle page change
+  const handlePageChange = (e, newPage) => {
+    setPage(newPage);
+  };
+
+  // handle rows per page change
+  const handleRowsPerPageChange = (e) => {
+    setRowsPerPage(parseInt(e.target.value, 10)); // 10 for decimal number system, if binary it will be 2
+    setPage(0); // reset to the first page when rows per page changes
   };
 
   // show loading message when the data is being fetched
@@ -178,6 +232,7 @@ const InvestorDepositDetails = () => {
       {/* Navbar */}
       <InvestorNavbar userData={userData} />
 
+      
       {/* Card Section */}
       <Grid2 container spacing={3} padding={3}>
         {/* Card 1 No. Of Projects */}
@@ -328,13 +383,63 @@ const InvestorDepositDetails = () => {
               )}
             </Grid2>
           </DialogContent>
-          <DialogActions sx={{mr: 2, mb: 1}}>
-            <Button size="small" onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-            <Button size="small" onClick={handleSubmit} sx={{backgroundColor: '#3A1078', color: 'white'}}>Send Request</Button>
+          <DialogActions sx={{ mr: 2, mb: 1 }}>
+            <Button
+              size="small"
+              onClick={handleClose}
+              variant="outlined"
+              color="error"
+            >
+              Cancel
+            </Button>
+            <Button
+              size="small"
+              onClick={handleSubmit}
+              sx={{ backgroundColor: "#3A1078", color: "white" }}
+            >
+              Send Request
+            </Button>
           </DialogActions>
         </Dialog>
       </Box>
-    </>
+
+      {/* Deposit Summary Table */}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Ref. No.</TableCell>
+              <TableCell>Deposit Date</TableCell>
+              <TableCell>Deposit Type</TableCell>
+              <TableCell>Deposit Amount</TableCell>
+              <TableCell>Status</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {depositData.map((item) => (
+              <TableRow key={item?.deposit_transaction_id}>
+                <TableCell>{item?.deposit_transaction_id}</TableCell>
+                <TableCell>{item?.depositDate.slice(0, 10)}</TableCell>
+                <TableCell>{item?.depositType.charAt(0)+item?.depositType.slice(1).toLowerCase()}</TableCell>
+                <TableCell>{item?.depositAmount}</TableCell>
+                <TableCell>{item?.status.charAt(0).toUpperCase()+item?.status.slice(1)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+        {/* Pagination */}
+        <TablePagination
+          component="div"
+          count={totalRows}
+          page={page}
+          onPageChange={handlePageChange}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleRowsPerPageChange}
+        />
+      </TableContainer>
+      </>
   );
 };
 

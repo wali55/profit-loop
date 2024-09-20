@@ -24,12 +24,11 @@ import {
   TableCell,
   TablePagination,
   Paper,
-  Container
 } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AddCardIcon from "@mui/icons-material/AddCard";
-// notification
-import { useSnackbar } from "notistack";
+// footer
+import Footer from "../../components/common/Footer";
 
 const InvestorDepositDetails = () => {
   // retrieve token and userId from localStorage
@@ -45,9 +44,6 @@ const InvestorDepositDetails = () => {
     region: "",
   };
 
-  // notification
-  const { enqueueSnackbar } = useSnackbar();
-
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   // create deposit from
@@ -58,7 +54,7 @@ const InvestorDepositDetails = () => {
   const [depositData, setDepositData] = useState([]);
   // pagination
   const [page, setPage] = useState(0); // current page number (0 indexed)
-  const [rowsPerPage, setRowsPerPage] = useState(10); // number of rows per page
+  const [rowsPerPage, setRowsPerPage] = useState(5); // number of rows per page
   const [totalRows, setTotalRows] = useState(0); // total number of rows from API
 
   // get the user id and
@@ -118,9 +114,8 @@ const InvestorDepositDetails = () => {
       if (!response.ok) throw new Error("Failed to get the deposit data");
 
       const data = await response.json();
-      console.log("dep data", data.data.results);
       setDepositData(data?.data?.results || []);
-      setTotalRows(data?.data?.results?.length || 0);
+      setTotalRows(data?.data?.count || 0);
     } catch (error) {
       console.error("Error when fetching deposit data", error);
     }
@@ -152,16 +147,14 @@ const InvestorDepositDetails = () => {
   // validate create deposit form data before submitting
   const validateForm = () => {
     if (!formData.depositAmount) {
-      enqueueSnackbar("Deposit amount is required.", { variant: "error" });
+      console.error("deposit value is required");
       return false;
     }
     if (
       depositType === "BANK" &&
       (!formData.bankName || !formData.accountNumber)
     ) {
-      enqueueSnackbar("Bank name and account number is required.", {
-        variant: "error",
-      });
+      console.error("bank name and account number is required");
       return false;
     }
     return true;
@@ -201,13 +194,11 @@ const InvestorDepositDetails = () => {
 
       if (!response.ok) throw new Error("Deposit request failed!");
 
-      enqueueSnackbar("Deposit request sent successfully.", {
-        variant: "success",
-      });
+      console.log("deposit request is sent successfully");
       fetchDepositData();
       handleClose(); // close the create deposit dialog
     } catch (err) {
-      enqueueSnackbar("Error: " + err.message, { variant: "error" });
+      console.error("error", err);
     }
   };
 
@@ -232,7 +223,6 @@ const InvestorDepositDetails = () => {
       {/* Navbar */}
       <InvestorNavbar userData={userData} />
 
-      
       {/* Card Section */}
       <Grid2 container spacing={3} padding={3}>
         {/* Card 1 No. Of Projects */}
@@ -269,7 +259,7 @@ const InvestorDepositDetails = () => {
       </Grid2>
 
       {/* Create Deposit Request */}
-      <Box>
+      <Box sx={{mt: 5}}>
         {/* Deposit Summary Header */}
         <Box textAlign="center">
           <Typography variant="h5">Deposit Details Summary</Typography>
@@ -404,7 +394,7 @@ const InvestorDepositDetails = () => {
       </Box>
 
       {/* Deposit Summary Table */}
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxWidth: "97%", mx: "auto" }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -421,9 +411,14 @@ const InvestorDepositDetails = () => {
               <TableRow key={item?.deposit_transaction_id}>
                 <TableCell>{item?.deposit_transaction_id}</TableCell>
                 <TableCell>{item?.depositDate.slice(0, 10)}</TableCell>
-                <TableCell>{item?.depositType.charAt(0)+item?.depositType.slice(1).toLowerCase()}</TableCell>
+                <TableCell>
+                  {item?.depositType.charAt(0) +
+                    item?.depositType.slice(1).toLowerCase()}
+                </TableCell>
                 <TableCell>{item?.depositAmount}</TableCell>
-                <TableCell>{item?.status.charAt(0).toUpperCase()+item?.status.slice(1)}</TableCell>
+                <TableCell>
+                  {item?.status.charAt(0).toUpperCase() + item?.status.slice(1)}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -437,9 +432,13 @@ const InvestorDepositDetails = () => {
           onPageChange={handlePageChange}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleRowsPerPageChange}
+          rowsPerPageOptions={[5, 10, 20]}
         />
       </TableContainer>
-      </>
+
+      {/* Footer */}
+      <Footer />
+    </>
   );
 };
 

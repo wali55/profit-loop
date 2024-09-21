@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import InvestorNavbar from "../../components/investor/InvestorNavbar";
+import { baseUrl, headers } from "../../Base";
+import { useNavigate } from "react-router-dom";
 
 const InvestorDashboard = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   // retrieve userId from localStorage
   const userId = localStorage.getItem("userId");
 
@@ -17,16 +20,14 @@ const InvestorDashboard = () => {
     // call API to get user data
     const fetchUserData = async () => {
       try {
-        const response = await fetch(
-          `https://samaraiz-node-backend.onrender.com/api/v1/investor/${userId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
+        const response = await fetch(`${baseUrl}/investor/${userId}`, {
+          method: "GET",
+          headers: headers,
+          credentials: "include",
+        });
+        if (response.status === 401) {
+          // navigate("/login");
+        }
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
@@ -52,7 +53,9 @@ const InvestorDashboard = () => {
     <div>
       <InvestorNavbar userData={userData} />
       <div>
-        <h2>Hello, {userData?.user.firstName} {userData?.user.lastName}</h2>
+        <h2>
+          Hello, {userData?.user.firstName} {userData?.user.lastName}
+        </h2>
       </div>
     </div>
   );

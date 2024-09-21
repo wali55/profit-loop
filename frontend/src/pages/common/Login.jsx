@@ -16,6 +16,7 @@ import { useState } from "react";
 // redux
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/authSlice";
+import { baseUrl } from "../../Base";
 
 const Login = () => {
   // redux
@@ -45,16 +46,14 @@ const Login = () => {
   const handleLogin = async () => {
     const { userName, password } = formData;
     try {
-      const response = await fetch(
-        "https://samaraiz-node-backend.onrender.com/api/v1/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userName, password }),
-        }
-      );
+      const response = await fetch(`${baseUrl}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ userName, password }),
+      });
 
       if (!response.ok) {
         throw new Error("Login failed");
@@ -63,16 +62,16 @@ const Login = () => {
       const data = await response.json();
 
       // Save token, userId and role to local storage
-      localStorage.setItem('token', data.accessToken);
-      localStorage.setItem('userId', data.user.id);
-      localStorage.setItem('role', data.user.role);
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("role", data.user.role);
 
       // redirect to admin dashboard
-      if (data?.user?.role === "ADMIN") {
-        navigate("/admin/dashboard");
-      } else if (data?.user?.role === "INVESTOR")  {
-        navigate("/investor/dashboard");
-      }
+      // if (data?.user?.role === "ADMIN") {
+      //   navigate("/admin/dashboard");
+      // } else if (data?.user?.role === "INVESTOR") {
+      //   navigate("/investor/dashboard");
+      // }
     } catch (error) {
       console.error("Login failed", error);
     }

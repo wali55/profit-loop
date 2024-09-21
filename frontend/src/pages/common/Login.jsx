@@ -63,7 +63,7 @@ const Login = () => {
       const data = await response.json();
 
       // Save token, userId and role to local storage
-      localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('token', data?.accessToken);
       localStorage.setItem('userId', data.user.id);
       localStorage.setItem('role', data.user.role);
 

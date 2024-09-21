@@ -4,15 +4,13 @@ import InvestorNavbar from "../../components/investor/InvestorNavbar";
 const InvestorDashboard = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  // retrieve userId from localStorage
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    // retrieve token and userId from localStorage
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-
     // if no token or userId found then I can send redirect or error message
-    if (!token || !userId) {
-      console.error("No token or userId found");
+    if (!userId) {
+      console.error("No userId found");
       return;
     }
 
@@ -24,12 +22,11 @@ const InvestorDashboard = () => {
           {
             method: "GET",
             headers: {
-              Authorization: `${token}`,
               "Content-Type": "application/json",
             },
+            credentials: "include",
           }
         );
-
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }

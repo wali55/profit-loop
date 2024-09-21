@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import InvestorNavbar from "../../components/investor/InvestorNavbar";
-import { baseUrl, headers } from "../../Base";
+import { baseUrl } from "../../Base";
 import { useNavigate } from "react-router-dom";
 
 const InvestorDashboard = () => {
@@ -19,6 +19,9 @@ const InvestorDashboard = () => {
 
     // call API to get user data
     const fetchUserData = async () => {
+      const headers = {
+        authorization: `${localStorage.getItem("token")}`,
+      };
       try {
         const response = await fetch(`${baseUrl}/investor/${userId}`, {
           method: "GET",
@@ -26,6 +29,8 @@ const InvestorDashboard = () => {
           credentials: "include",
         });
         if (response.status === 401) {
+          // alert("You are not authorized to view this page");
+          // // redirect to login page
           // navigate("/login");
         }
         if (!response.ok) {

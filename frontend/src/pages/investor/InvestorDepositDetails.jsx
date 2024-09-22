@@ -29,6 +29,8 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AddCardIcon from "@mui/icons-material/AddCard";
 // footer
 import Footer from "../../components/common/Footer";
+// base url
+import { baseUrl } from "../../Base";
 
 const InvestorDepositDetails = () => {
   // retrieve token and userId from localStorage
@@ -57,7 +59,7 @@ const InvestorDepositDetails = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5); // number of rows per page
   const [totalRows, setTotalRows] = useState(0); // total number of rows from API
 
-  // get the user id and
+  // get the user data
   useEffect(() => {
     // if no token or userId found then I can send redirect or error message
     if (!token || !userId) {
@@ -68,16 +70,14 @@ const InvestorDepositDetails = () => {
     // call API to get user data
     const fetchUserData = async () => {
       try {
-        const response = await fetch(
-          `https://samaraiz-node-backend.onrender.com/api/v1/investor/${userId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${baseUrl}/investor/${userId}`, {
+          method: "GET",
+          headers: {
+            authorization: token,
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
@@ -99,15 +99,16 @@ const InvestorDepositDetails = () => {
   const fetchDepositData = async () => {
     try {
       const response = await fetch(
-        `https://samaraiz-node-backend.onrender.com/api/v1/deposit?investorId=${userId}&pagination=true&pageNumber=${
+        `${baseUrl}/deposit?investorId=${userId}&pagination=true&pageNumber=${
           page + 1
         }&rowPerPage=${rowsPerPage}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            authorization: token,
           },
+          credentials: "include",
         }
       );
 
@@ -186,8 +187,9 @@ const InvestorDepositDetails = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            authorization: token,
           },
+          credentials: "include",
           body: JSON.stringify(payload),
         }
       );
@@ -259,7 +261,7 @@ const InvestorDepositDetails = () => {
       </Grid2>
 
       {/* Create Deposit Request */}
-      <Box sx={{mt: 5}}>
+      <Box sx={{ mt: 5 }}>
         {/* Deposit Summary Header */}
         <Box textAlign="center">
           <Typography variant="h5">Deposit Details Summary</Typography>
@@ -383,9 +385,10 @@ const InvestorDepositDetails = () => {
               Cancel
             </Button>
             <Button
+              variant="outlined"
               size="small"
               onClick={handleSubmit}
-              sx={{ backgroundColor: "#3A1078", color: "white" }}
+              sx={{ borderColor: "#3A1078", color: "#3A1078" }}
             >
               Send Request
             </Button>

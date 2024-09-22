@@ -16,6 +16,7 @@ import {
   Button,
 } from "@mui/material";
 import Footer from "../../components/common/Footer";
+import { baseUrl } from "../../Base";
 
 const AdminDepositRequests = () => {
   // retrieve token from localStorage
@@ -36,15 +37,16 @@ const AdminDepositRequests = () => {
   const fetchDepositData = async () => {
     try {
       const response = await fetch(
-        `https://samaraiz-node-backend.onrender.com/api/v1/deposit?pagination=true&pageNumber=${
+        `${baseUrl}/deposit?pagination=true&pageNumber=${
           page + 1
         }&rowPerPage=${rowsPerPage}&status=${status}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            authorization: token,
           },
+          credentials: "include"
         }
       );
 
@@ -85,13 +87,14 @@ const AdminDepositRequests = () => {
   const handleAction = async (id, action) => {
     try {
       const response = await fetch(
-        `https://samaraiz-node-backend.onrender.com/api/v1/update-deposit-status/${id}`,
+        `${baseUrl}/update-deposit-status/${id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            authorization: token,
           },
+          credentials: "include",
           body: JSON.stringify({ status: action }),
         }
       );

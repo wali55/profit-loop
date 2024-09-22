@@ -11,16 +11,10 @@ import {
   FormControlLabel,
   Link,
 } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
-// redux
-import { useDispatch } from "react-redux";
-import { login } from "../../redux/slices/authSlice";
 import { baseUrl } from "../../Base";
 
 const Login = () => {
-  // redux
-  const dispatch = useDispatch();
 
   // state to store username and password
   const [formData, setFormData] = useState({

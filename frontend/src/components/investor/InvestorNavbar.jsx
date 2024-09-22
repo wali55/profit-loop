@@ -232,6 +232,21 @@ const InvestorNavbar = ({userData}) => {
                 Terms & Conditions
               </MenuItem>
             </Menu>
+
+            {/* Profile */}
+            <Button color="inherit" onClick={(e) => handleMenuOpen(e, 'profile')}>
+              Profile
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={openMenu === 'profile'}
+              onClose={handleMenuClose}
+              MenuListProps={{onMouseLeave: handleMenuClose}}
+            >
+              <MenuItem onClick={() => navigate('/investor/profile/banks')}>
+                Banks
+              </MenuItem>
+            </Menu>
           </Box>
 
           {/* Logout */}
@@ -420,6 +435,18 @@ const InvestorNavbar = ({userData}) => {
                 onClick={() => navigate("/investor/help/terms-conditions")}
               >
                 <ListItemText primary="Terms & Conditions" />
+              </ListItem>
+            </List>
+          )}
+
+          <ListItem button onClick={(e) => handleMenuOpen(e, 'profile')}>
+            <ListItemText primary="Profile" />
+            <ArrowForwardIosIcon sx={{ width: 15, marginLeft: 2 }} />
+          </ListItem>
+          {openMenu === 'profile' && (
+            <List>
+              <ListItem onClick={() => navigate('/investor/profile/banks')}>
+                <ListItemText primary="Banks" />
               </ListItem>
             </List>
           )}

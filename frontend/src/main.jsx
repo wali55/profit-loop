@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import InvestorDashboard from "./pages/investor/InvestorDashboard.jsx";
 import InvestorDepositDetails from "./pages/investor/InvestorDepositDetails.jsx";
 import AdminDepositRequests from "./pages/admin/AdminDepositRequests.jsx";
+import InvestorsBanks from "./pages/investor/InvestorsBanks.jsx";
 // redux
 import { Provider } from "react-redux";
 import {store} from "./redux/store";
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
     path: "/investor/financial-details/deposit-details",
     element: <InvestorDepositDetails />,
   },
+  {
+    path: "/investor/profile/banks",
+    element: <InvestorsBanks />
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(
@@ -62,3 +67,4 @@ createRoot(document.getElementById("root")).render(
 // green button color #7ABA78
 // red button color #C7253E
 // primary violet color #3A1078
+// orange #CD5C08

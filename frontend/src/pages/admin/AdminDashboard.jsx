@@ -82,6 +82,7 @@ const AdminDashboard = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("role");
+    localStorage.removeItem("lastName");
 
     // redirect to login page
     navigate('/login');

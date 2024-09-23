@@ -56,7 +56,7 @@ const InvestorDashboard = () => {
 
   return (
     <div>
-      <InvestorNavbar userData={userData} />
+      <InvestorNavbar />
       <div>
         <h2>
           Hello, {userData?.user.firstName} {userData?.user.lastName}

@@ -14,6 +14,7 @@ import InvestorDashboard from "./pages/investor/InvestorDashboard.jsx";
 import InvestorDepositDetails from "./pages/investor/InvestorDepositDetails.jsx";
 import AdminDepositRequests from "./pages/admin/AdminDepositRequests.jsx";
 import InvestorsBanks from "./pages/investor/InvestorsBanks.jsx";
+import InvestorWithdrawDetails from "./pages/investor/InvestorWithdrawDetails.jsx";
 // redux
 import { Provider } from "react-redux";
 import {store} from "./redux/store";
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/investor/financial-details/deposit-details",
     element: <InvestorDepositDetails />,
+  },
+  {
+    path: "/investor/financial-details/withdraw-details",
+    element: <InvestorWithdrawDetails />,
   },
   {
     path: "/investor/profile/banks",

@@ -18,8 +18,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-const InvestorNavbar = ({userData}) => {
-  
+const InvestorNavbar = () => {
+  const lastName = localStorage.getItem('lastName');
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
@@ -47,6 +47,7 @@ const InvestorNavbar = ({userData}) => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("role");
+    localStorage.removeItem("lastName");
 
     // redirect to login page
     navigate('/login');
@@ -254,7 +255,7 @@ const InvestorNavbar = ({userData}) => {
             sx={{ display: { md: "flex", xs: "none" }, alignItems: "center" }}
           >
             <Typography sx={{ marginRight: 2 }}>
-              Hi, {userData?.user?.lastName}
+              Hi, {lastName}
             </Typography>
             <Button
               size="small"

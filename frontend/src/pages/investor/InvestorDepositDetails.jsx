@@ -223,7 +223,7 @@ const InvestorDepositDetails = () => {
   return (
     <>
       {/* Navbar */}
-      <InvestorNavbar userData={userData} />
+      <InvestorNavbar />
 
       {/* Card Section */}
       <Grid2 container spacing={3} padding={3}>

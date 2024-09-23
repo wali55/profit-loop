@@ -118,12 +118,43 @@ const InvestorsBanks = () => {
     }
   };
 
+  // Update a bank make it active
+  const handleActiveClick = async (bankId) => {
+    const payload = {
+      status: "approved",
+    };
+
+    try {
+      const response = await fetch(
+        `${baseUrl}/investorBankInfo/${bankId}?investorId=${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: token,
+          },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok)
+        throw new Error("Error occur when updating the bank status");
+
+      await response.json();
+      
+      fetchBankData(); // call to fetch updated bank data and rerender the component again
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
+
   return (
     <div>
       <InvestorNavbar userId={userId} />
 
       {/* Banks */}
-      <Typography variant="h5" sx={{textAlign: 'center', m: 3}}>
+      <Typography variant="h5" sx={{ textAlign: "center", m: 3 }}>
         My Banks
       </Typography>
 
@@ -140,10 +171,13 @@ const InvestorsBanks = () => {
       </Box>
 
       {/* Bank List */}
-      <Grid2 container sx={{ maxWidth: "97%", mx: "auto", justifyContent: 'center' }}>
+      <Grid2
+        container
+        sx={{ maxWidth: "97%", mx: "auto", justifyContent: "center" }}
+      >
         {bankData.map((item) => (
-          <Grid2 item key={item.id} size={{xs: 12, md: 5}} sx={{m: 1}}>
-            <Card sx={{height: '170px'}}>
+          <Grid2 item key={item.id} size={{ xs: 12, md: 5 }} sx={{ m: 1 }}>
+            <Card sx={{ height: "170px" }}>
               <CardContent>
                 <Typography variant="h6" component="div" mb={2}>
                   {item.bankName} - {item.branchName}
@@ -154,17 +188,24 @@ const InvestorsBanks = () => {
                 <Typography variant="body2" color="textSecondary" mb={1}>
                   Account Number: {item.accountNumber}
                 </Typography>
-                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <Typography
-                  sx={{ fontWeight: "bold" }}
-                  color={item?.status === "approved" ? "#7ABA78" : "#CD5C08"}
-                >
-                  Status:{" "}
-                  {item?.status.charAt(0).toUpperCase() + item?.status.slice(1)}
-                </Typography>
-                {item?.status === 'pending' && (
-                    <Button size="small" variant="outlined" sx={{borderColor: '#3A1078', color: '#3A1078'}}>Make Active</Button>
-                )}
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Typography
+                    sx={{ fontWeight: "bold" }}
+                    color={item?.status === "approved" ? "#7ABA78" : "#CD5C08"}
+                  >
+                    Status:{" "}
+                    {item?.status === 'approved' ? "Active" : "Inactive"}
+                  </Typography>
+                  {item?.status === "pending" && (
+                    <Button
+                      onClick={() => handleActiveClick(item?.id)}
+                      size="small"
+                      variant="outlined"
+                      sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+                    >
+                      Make Active
+                    </Button>
+                  )}
                 </Box>
               </CardContent>
             </Card>

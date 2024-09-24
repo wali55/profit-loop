@@ -73,3 +73,4 @@ createRoot(document.getElementById("root")).render(
 // red button color #C7253E
 // primary violet color #3A1078
 // orange #CD5C08
+// icon color purple

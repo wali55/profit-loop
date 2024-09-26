@@ -173,7 +173,6 @@ const Register = () => {
 
           <Button
             variant="contained"
-            size="small"
             sx={{ backgroundColor: "#3A1078" }}
             onClick={handleRegister}
           >

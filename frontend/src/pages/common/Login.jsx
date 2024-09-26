@@ -149,7 +149,6 @@ const Login = () => {
         <Button
           variant="contained"
           fullWidth
-          size="small"
           sx={{ marginTop: 2, backgroundColor: "#3A1078" }}
           onClick={handleLogin}
         >

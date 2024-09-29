@@ -14,7 +14,12 @@ import {
   Radio,
   Box,
   Button,
-  Typography
+  Typography,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import Footer from "../../components/common/Footer";
 import { baseUrl } from "../../Base";
@@ -33,6 +38,10 @@ const AdminDepositRequests = () => {
   const [page, setPage] = useState(0); // current page number (0 indexed)
   const [rowsPerPage, setRowsPerPage] = useState(5); // number of rows per page
   const [totalRows, setTotalRows] = useState(0); // total number of rows from API
+  // dialog for confirmation of status change
+  const [open, setOpen] = useState(false);
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
 
   // fetch deposit data function
   const fetchDepositData = async () => {
@@ -47,7 +56,7 @@ const AdminDepositRequests = () => {
             "Content-Type": "application/json",
             authorization: token,
           },
-          credentials: "include"
+          credentials: "include",
         }
       );
 
@@ -87,23 +96,38 @@ const AdminDepositRequests = () => {
   // Approve/Reject handler to update the status
   const handleAction = async (id, action) => {
     try {
-      const response = await fetch(
-        `${baseUrl}/update-deposit-status/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          credentials: "include",
-          body: JSON.stringify({ status: action }),
-        }
-      );
+      const response = await fetch(`${baseUrl}/update-deposit-status/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        },
+        credentials: "include",
+        body: JSON.stringify({ status: action }),
+      });
       await response.json();
       fetchDepositData(); // Reload data after the status update
     } catch (err) {
       console.error("Error when updating status", err);
     }
+  };
+
+  // open the confirmation dialog (for changing deposit status)
+  const handleOpen = (id, action) => {
+    setSelectedId(id);
+    setSelectedAction(action);
+    setOpen(true);
+  };
+
+  // close the confirmation dialog (for changing deposit status)
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // make the api call to change the status
+  const handleConfirm = () => {
+    handleAction(selectedId, selectedAction);
+    setOpen(false); // after confirm close the dialog
   };
 
   // show loading message when the data is being fetched
@@ -117,12 +141,19 @@ const AdminDepositRequests = () => {
       <AdminNavbar />
 
       {/* Deposit Requests Heading */}
-      <Typography variant="h5" textAlign="center" sx={{mt: 5}}>Deposit Requests</Typography>
+      <Typography variant="h5" textAlign="center" sx={{ mt: 5 }}>
+        Deposit Requests
+      </Typography>
 
       {/* Deposit Summary Table */}
       <Box>
         {/* Radio Buttons */}
-        <RadioGroup row value={status} onChange={handleStatusChange} sx={{mt: 4, ml: 3, mb: 1}}>
+        <RadioGroup
+          row
+          value={status}
+          onChange={handleStatusChange}
+          sx={{ mt: 4, ml: 3, mb: 1 }}
+        >
           <FormControlLabel
             value="pending"
             control={<Radio />}
@@ -139,7 +170,7 @@ const AdminDepositRequests = () => {
             label="Rejected"
           />
         </RadioGroup>
-        
+
         {/* Table */}
         <TableContainer component={Paper} sx={{ maxWidth: "97%", mx: "auto" }}>
           <Table>
@@ -149,9 +180,9 @@ const AdminDepositRequests = () => {
                 <TableCell>Investor</TableCell>
                 <TableCell>Deposit Date</TableCell>
                 <TableCell>Deposit Type</TableCell>
-                <TableCell>Deposit Amount</TableCell>
+                <TableCell>Deposit Amount (AED)</TableCell>
                 <TableCell>Status</TableCell>
-                {status === 'pending' && <TableCell>Action</TableCell>}
+                {status === "pending" && <TableCell>Action</TableCell>}
               </TableRow>
             </TableHead>
 
@@ -159,7 +190,10 @@ const AdminDepositRequests = () => {
               {depositData.map((item) => (
                 <TableRow key={item?.deposit_transaction_id}>
                   <TableCell>{item?.deposit_transaction_id}</TableCell>
-                  <TableCell>{item?.investor?.user?.firstName} {item?.investor?.user?.lastName}</TableCell>
+                  <TableCell>
+                    {item?.investor?.user?.firstName}{" "}
+                    {item?.investor?.user?.lastName}
+                  </TableCell>
                   <TableCell>{item?.depositDate.slice(0, 10)}</TableCell>
                   <TableCell>
                     {item?.depositType.charAt(0) +
@@ -170,10 +204,24 @@ const AdminDepositRequests = () => {
                     {item?.status.charAt(0).toUpperCase() +
                       item?.status.slice(1)}
                   </TableCell>
-                  {status === 'pending' && (
+                  {status === "pending" && (
                     <TableCell>
-                      <Button size="small" variant="outlined" onClick={() => handleAction(item?.id ,'approved')} sx={{mr: 1, borderColor: '#7ABA78', color: '#7ABA78'}}>Approve</Button>
-                      <Button size="small" variant="outlined" onClick={() => handleAction(item?.id ,'rejected')} sx={{borderColor: '#C7253E', color: '#C7253E'}}>Rejected</Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => handleOpen(item?.id, "approved")}
+                        sx={{ mr: 1, borderColor: "#7ABA78", color: "#7ABA78" }}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => handleOpen(item?.id, "rejected")}
+                        sx={{ borderColor: "#C7253E", color: "#C7253E" }}
+                      >
+                        Reject
+                      </Button>
                     </TableCell>
                   )}
                 </TableRow>
@@ -193,6 +241,34 @@ const AdminDepositRequests = () => {
           />
         </TableContainer>
       </Box>
+
+      {/* Dialog for confirmation to change the status (deposit requests) */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{`Are you sure you want to ${
+            selectedAction === "approved" ? "approve" : "reject"
+          } this deposit request?`}</DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{mr: 1, mb: 1}}>
+          <Button
+            size="small"
+            variant="outlined"
+            sx={{ borderColor: "#7ABA78", color: "#7ABA78" }}
+            onClick={handleConfirm}
+          >
+            Yes
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            sx={{ borderColor: "#C7253E", color: "#C7253E" }}
+            onClick={handleClose}
+          >
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Footer */}
       <Footer />

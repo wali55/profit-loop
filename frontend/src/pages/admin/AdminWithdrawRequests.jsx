@@ -15,6 +15,11 @@ import {
   Box,
   Button,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import Footer from "../../components/common/Footer";
 import { baseUrl } from "../../Base";
@@ -34,9 +39,15 @@ const AdminWithdrawRequests = () => {
   const [totalRows, setTotalRows] = useState(0); // total number of rows from API
   // dialog
   const [open, setOpen] = useState(false);
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
 
   // handle open/close dialog (of confirmation status change)
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (id, action) => {
+    setSelectedId(id);
+    setSelectedAction(action);
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
 
   // fetch withdraw data
@@ -90,25 +101,23 @@ const AdminWithdrawRequests = () => {
   };
 
   // handle confirm status change (approve withdraw request/reject withdraw request)
-  const handleConfirm = (id) => {
-    handleOpen()
-  }
+  const handleConfirm = () => {
+    handleAction(selectedId, selectedAction); 
+    setOpen(false); // close the dialog
+  };
 
   // Approve/Reject handler to update the status
   const handleAction = async (id, action) => {
     try {
-      const response = await fetch(
-        `${baseUrl}/update-withdraw-status/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          credentials: "include",
-          body: JSON.stringify({ status: action }),
-        }
-      );
+      const response = await fetch(`${baseUrl}/update-withdraw-status/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        },
+        credentials: "include",
+        body: JSON.stringify({ status: action }),
+      });
       await response.json();
       fetchWithdrawData(); // Reload data after the status update
     } catch (err) {
@@ -134,7 +143,12 @@ const AdminWithdrawRequests = () => {
       {/* Withdraw Summary Table */}
       <Box>
         {/* Radio Buttons */}
-        <RadioGroup row value={status} onChange={handleStatusChange} sx={{mt: 4, ml: 3, mb: 1}}>
+        <RadioGroup
+          row
+          value={status}
+          onChange={handleStatusChange}
+          sx={{ mt: 4, ml: 3, mb: 1 }}
+        >
           <FormControlLabel
             value="pending"
             control={<Radio />}
@@ -151,7 +165,7 @@ const AdminWithdrawRequests = () => {
             label="Rejected"
           />
         </RadioGroup>
-        
+
         {/* Table */}
         <TableContainer component={Paper} sx={{ maxWidth: "97%", mx: "auto" }}>
           <Table>
@@ -161,9 +175,9 @@ const AdminWithdrawRequests = () => {
                 <TableCell>Investor</TableCell>
                 <TableCell>Withdraw Date</TableCell>
                 <TableCell>Withdraw Type</TableCell>
-                <TableCell>Withdraw Amount</TableCell>
+                <TableCell>Withdraw Amount (AED)</TableCell>
                 <TableCell>Status</TableCell>
-                {status === 'pending' && <TableCell>Action</TableCell>}
+                {status === "pending" && <TableCell>Action</TableCell>}
               </TableRow>
             </TableHead>
 
@@ -171,7 +185,10 @@ const AdminWithdrawRequests = () => {
               {withdrawData.map((item) => (
                 <TableRow key={item?.withdraw_transaction_id}>
                   <TableCell>{item?.withdraw_transaction_id}</TableCell>
-                  <TableCell>{item?.investor?.user?.firstName} {item?.investor?.user?.lastName}</TableCell>
+                  <TableCell>
+                    {item?.investor?.user?.firstName}{" "}
+                    {item?.investor?.user?.lastName}
+                  </TableCell>
                   <TableCell>{item?.withdrawDate.slice(0, 10)}</TableCell>
                   <TableCell>
                     {item?.withdrawType.charAt(0) +
@@ -182,16 +199,44 @@ const AdminWithdrawRequests = () => {
                     {item?.status.charAt(0).toUpperCase() +
                       item?.status.slice(1)}
                   </TableCell>
-                  {status === 'pending' && (
+                  {status === "pending" && (
                     <TableCell>
-                      <Button size="small" variant="outlined" onClick={() => handleAction(item?.id ,'approved')} sx={{mr: 1, borderColor: '#7ABA78', color: '#7ABA78'}}>Approve</Button>
-                      <Button size="small" variant="outlined" onClick={() => handleAction(item?.id ,'rejected')} sx={{borderColor: '#C7253E', color: '#C7253E'}}>Rejected</Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => handleOpen(item?.id, "approved")}
+                        sx={{ mr: 1, borderColor: "#7ABA78", color: "#7ABA78" }}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => handleOpen(item?.id, "rejected")}
+                        sx={{ borderColor: "#C7253E", color: "#C7253E" }}
+                      >
+                        Reject
+                      </Button>
                     </TableCell>
                   )}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
+
+          {/* Confirmation Dialog */}
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Confirmation</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                {`Are you sure you want to ${selectedAction === "approved" ? "approve" : "reject"} this withdraw request?`}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions sx={{mr: 1, mb: 1}}>
+              <Button size="small" variant="outlined" sx={{ borderColor: "#7ABA78", color: "#7ABA78" }} onClick={handleConfirm}>Yes</Button>
+              <Button size="small" variant="outlined" sx={{ borderColor: "#C7253E", color: "#C7253E" }} onClick={handleClose}>No</Button>
+            </DialogActions>
+          </Dialog>
 
           {/* Pagination */}
           <TablePagination

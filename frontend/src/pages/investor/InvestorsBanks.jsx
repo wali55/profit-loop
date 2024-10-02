@@ -111,7 +111,7 @@ const InvestorsBanks = () => {
 
       if (!response.ok) throw new Error("Error occur during creating bank");
 
-      fetchBankData(); // get bank data again any time user create a new bank
+      await fetchBankData(); // get bank data again any time user create a new bank
       handleClose(); // close the dialog form
     } catch (err) {
       console.error("Error:", err);
@@ -158,7 +158,7 @@ const InvestorsBanks = () => {
         My Banks
       </Typography>
 
-      {/* Create Deposit Request Button */}
+      {/* Create Bank Button */}
       <Box textAlign="right" m={2}>
         <Button
           variant="outlined"
@@ -213,7 +213,7 @@ const InvestorsBanks = () => {
         ))}
       </Grid2>
 
-      {/* Create Deposit Request Dialog form */}
+      {/* Create Bank Dialog form */}
       <Dialog open={open} onClose={handleClose}>
         {/* Dialog Title */}
         <DialogTitle>Deposit Request</DialogTitle>

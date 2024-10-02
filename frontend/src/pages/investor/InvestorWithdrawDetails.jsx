@@ -218,7 +218,7 @@ const InvestorWithdrawDetails = () => {
         setOtpDialog(false); // close otp dialog
       }
       await response.json();
-      fetchWithdrawData();
+      await fetchWithdrawData();
     } catch (err) {
       console.error("Error occur when confirming otp", err);
     }

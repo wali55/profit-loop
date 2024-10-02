@@ -197,7 +197,7 @@ const InvestorDepositDetails = () => {
       if (!response.ok) throw new Error("Deposit request failed!");
 
       console.log("deposit request is sent successfully");
-      fetchDepositData();
+      await fetchDepositData();
       handleClose(); // close the create deposit dialog
     } catch (err) {
       console.error("error", err);

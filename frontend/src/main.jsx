@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import AdminDepositRequests from "./pages/admin/AdminDepositRequests.jsx";
 import AdminWithdrawRequests from "./pages/admin/AdminWithdrawRequests.jsx";
 import AdminDepartments from "./pages/admin/AdminDepartments.jsx";
+import AdminAllProjects from "./pages/admin/AdminAllProjects.jsx";
 // investors
 import Register from "./pages/investor/Register.jsx";
 import InvestorDashboard from "./pages/investor/InvestorDashboard.jsx";
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/company/departments",
     element: <AdminDepartments />,
+  },
+  {
+    path: "/admin/projects/all-projects",
+    element: <AdminAllProjects />,
   },
   // investor
   {

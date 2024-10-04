@@ -327,7 +327,7 @@ const InvestorWithdrawDetails = () => {
         <DialogContent>
           <Grid2 container spacing={2}>
             {/* Withdraw Amount */}
-            <Grid2 item size={12} minWidth={300}>
+            <Grid2 item size={12} minWidth={300} mt={1}>
               <TextField
                 size="small"
                 fullWidth
@@ -349,6 +349,7 @@ const InvestorWithdrawDetails = () => {
                   value={withdrawType}
                   onChange={handleWithdrawTypeChange}
                   name="withdrawType"
+                  label="Withdraw Type"
                 >
                   <MenuItem value="CASH">Cash</MenuItem>
                   <MenuItem value="BANK">Bank</MenuItem>

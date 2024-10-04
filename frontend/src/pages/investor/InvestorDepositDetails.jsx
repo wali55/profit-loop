@@ -287,7 +287,7 @@ const InvestorDepositDetails = () => {
           <DialogContent>
             <Grid2 container spacing={2}>
               {/* Deposit Amount */}
-              <Grid2 item size={12} minWidth={300}>
+              <Grid2 item size={12} minWidth={300} mt={1}>
                 <TextField
                   size="small"
                   fullWidth
@@ -309,6 +309,7 @@ const InvestorDepositDetails = () => {
                     value={depositType}
                     onChange={handleDepositTypeChange}
                     name="depositType"
+                    label="Deposit Type"
                   >
                     <MenuItem value="CASH">Cash</MenuItem>
                     <MenuItem value="BANK">Bank</MenuItem>

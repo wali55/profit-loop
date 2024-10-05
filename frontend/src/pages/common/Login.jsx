@@ -11,16 +11,10 @@ import {
   FormControlLabel,
   Link,
 } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
-// redux
-import { useDispatch } from "react-redux";
-import { login } from "../../redux/slices/authSlice";
 import { baseUrl } from "../../Base";
 
 const Login = () => {
-  // redux
-  const dispatch = useDispatch();
 
   // state to store username and password
   const [formData, setFormData] = useState({
@@ -65,6 +59,7 @@ const Login = () => {
       localStorage.setItem('token', data?.accessToken);
       localStorage.setItem('userId', data.user.id);
       localStorage.setItem('role', data.user.role);
+      localStorage.setItem('lastName', data?.user?.lastName);
 
       // redirect to admin dashboard
       if (data?.user?.role === "ADMIN") {
@@ -154,7 +149,6 @@ const Login = () => {
         <Button
           variant="contained"
           fullWidth
-          size="small"
           sx={{ marginTop: 2, backgroundColor: "#3A1078" }}
           onClick={handleLogin}
         >

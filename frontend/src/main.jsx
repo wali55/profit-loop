@@ -6,13 +6,21 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+// common
 import Home from "./pages/common/Home.jsx";
 import Login from "./pages/common/Login.jsx";
-import Register from "./pages/investor/Register.jsx";
+// admin
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import AdminDepositRequests from "./pages/admin/AdminDepositRequests.jsx";
+import AdminWithdrawRequests from "./pages/admin/AdminWithdrawRequests.jsx";
+import AdminDepartments from "./pages/admin/AdminDepartments.jsx";
+import AdminAllProjects from "./pages/admin/AdminAllProjects.jsx";
+// investors
+import Register from "./pages/investor/Register.jsx";
 import InvestorDashboard from "./pages/investor/InvestorDashboard.jsx";
 import InvestorDepositDetails from "./pages/investor/InvestorDepositDetails.jsx";
-import AdminDepositRequests from "./pages/admin/AdminDepositRequests.jsx";
+import InvestorsBanks from "./pages/investor/InvestorsBanks.jsx";
+import InvestorWithdrawDetails from "./pages/investor/InvestorWithdrawDetails.jsx";
 // redux
 import { Provider } from "react-redux";
 import {store} from "./redux/store";
@@ -36,6 +44,18 @@ const router = createBrowserRouter([
     path: "/admin/requests/deposit-requests",
     element: <AdminDepositRequests />,
   },
+  {
+    path: "/admin/requests/withdraw-requests",
+    element: <AdminWithdrawRequests />,
+  },
+  {
+    path: "/admin/company/departments",
+    element: <AdminDepartments />,
+  },
+  {
+    path: "/admin/projects/all-projects",
+    element: <AdminAllProjects />,
+  },
   // investor
   {
     path: "/register",
@@ -49,6 +69,14 @@ const router = createBrowserRouter([
     path: "/investor/financial-details/deposit-details",
     element: <InvestorDepositDetails />,
   },
+  {
+    path: "/investor/financial-details/withdraw-details",
+    element: <InvestorWithdrawDetails />,
+  },
+  {
+    path: "/investor/profile/banks",
+    element: <InvestorsBanks />
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(
@@ -62,3 +90,5 @@ createRoot(document.getElementById("root")).render(
 // green button color #7ABA78
 // red button color #C7253E
 // primary violet color #3A1078
+// orange #CD5C08
+// icon color purple

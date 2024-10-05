@@ -18,8 +18,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-const InvestorNavbar = ({userData}) => {
-  
+const InvestorNavbar = () => {
+  const lastName = localStorage.getItem('lastName');
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
@@ -47,6 +47,7 @@ const InvestorNavbar = ({userData}) => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("role");
+    localStorage.removeItem("lastName");
 
     // redirect to login page
     navigate('/login');
@@ -232,6 +233,21 @@ const InvestorNavbar = ({userData}) => {
                 Terms & Conditions
               </MenuItem>
             </Menu>
+
+            {/* Profile */}
+            <Button color="inherit" onClick={(e) => handleMenuOpen(e, 'profile')}>
+              Profile
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={openMenu === 'profile'}
+              onClose={handleMenuClose}
+              MenuListProps={{onMouseLeave: handleMenuClose}}
+            >
+              <MenuItem onClick={() => navigate('/investor/profile/banks')}>
+                Banks
+              </MenuItem>
+            </Menu>
           </Box>
 
           {/* Logout */}
@@ -239,7 +255,7 @@ const InvestorNavbar = ({userData}) => {
             sx={{ display: { md: "flex", xs: "none" }, alignItems: "center" }}
           >
             <Typography sx={{ marginRight: 2 }}>
-              Hi, {userData?.user?.lastName}
+              Hi, {lastName}
             </Typography>
             <Button
               size="small"
@@ -420,6 +436,18 @@ const InvestorNavbar = ({userData}) => {
                 onClick={() => navigate("/investor/help/terms-conditions")}
               >
                 <ListItemText primary="Terms & Conditions" />
+              </ListItem>
+            </List>
+          )}
+
+          <ListItem button onClick={(e) => handleMenuOpen(e, 'profile')}>
+            <ListItemText primary="Profile" />
+            <ArrowForwardIosIcon sx={{ width: 15, marginLeft: 2 }} />
+          </ListItem>
+          {openMenu === 'profile' && (
+            <List>
+              <ListItem onClick={() => navigate('/investor/profile/banks')}>
+                <ListItemText primary="Banks" />
               </ListItem>
             </List>
           )}

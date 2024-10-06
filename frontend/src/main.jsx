@@ -23,7 +23,7 @@ import InvestorsBanks from "./pages/investor/InvestorsBanks.jsx";
 import InvestorWithdrawDetails from "./pages/investor/InvestorWithdrawDetails.jsx";
 // redux
 import { Provider } from "react-redux";
-import {store} from "./redux/store";
+import { store } from "./redux/store";
 
 const router = createBrowserRouter([
   // common
@@ -75,8 +75,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/investor/profile/banks",
-    element: <InvestorsBanks />
-  }
+    element: <InvestorsBanks />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(

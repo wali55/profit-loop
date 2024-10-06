@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   MenuItem,
   Box,
@@ -85,7 +85,7 @@ const AdminDashboard = () => {
     localStorage.removeItem("lastName");
 
     // redirect to login page
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -218,7 +218,7 @@ const AdminDashboard = () => {
           </Table>
 
           {/* Pagination */}
-          <TablePagination 
+          <TablePagination
             component="div"
             count={projects?.length}
             page={page}

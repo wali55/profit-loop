@@ -37,7 +37,7 @@ const AdminAllProjects = () => {
     investment_start_date: "",
     investment_end_date: "",
     projectDescription: "",
-    project_image: "",
+    project_image: null,
     hardware_asset_value: "",
     software_asset_value: "",
     brand_asset_value: "",
@@ -154,35 +154,62 @@ const AdminAllProjects = () => {
   // handle project form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
 
-    if (name === "owner_share_percentage") {
-      const investor_share_percentage = 100 - value;
-      const owner_share_value = (formData.actual_project_value * value) / 100;
-      const investor_share_value =
-        formData.actual_project_value - owner_share_value;
-      setFormData((prev) => ({
-        ...prev,
-        investor_share_percentage,
-        owner_share_value,
-        investor_share_value,
-      }));
-    }
+    setFormData((prev) => {
+      let updatedFormData = { ...prev, [name]: value };
 
-    if (name === "owner_profit_loss_percent") {
-      const investor_profit_loss_percent = 100 - value;
-      setFormData((prev) => ({ ...prev, investor_profit_loss_percent }));
-    }
+      const actual_project_value =
+        Number(updatedFormData.software_asset_value) +
+        Number(updatedFormData.hardware_asset_value) +
+        Number(updatedFormData.brand_asset_value) +
+        Number(updatedFormData.property_asset_value);
 
-    if (name === "no_of_share_required") {
-      const per_share_amount = formData.investor_share_value / Number(value);
-      setFormData((prev) => ({ ...prev, per_share_amount }));
-    }
+      updatedFormData = { ...updatedFormData, actual_project_value };
 
-    if (name === "investment_start_date" || name === "investment_end_date") {
-      const formattedDate = new Date(value).toLocaleDateString("en-CA"); // 'en-CA' locale formats date as yyyy-mm-dd
-      setFormData((prev) => ({ ...prev, [name]: formattedDate }));
-    }
+      if (name === "owner_share_percentage") {
+        const owner_share_percentage = Number(value);
+        const investor_share_percentage = 100 - owner_share_percentage;
+
+        const owner_share_value =
+          (updatedFormData.actual_project_value * owner_share_percentage) / 100;
+
+        const investor_share_value =
+          updatedFormData.actual_project_value - owner_share_value;
+
+        return {
+          ...updatedFormData,
+          investor_share_percentage,
+          owner_share_value,
+          investor_share_value,
+        };
+      }
+
+      if (name === "owner_profit_loss_percent") {
+        const investor_profit_loss_percent = 100 - value;
+        return {
+          ...updatedFormData,
+          investor_profit_loss_percent,
+        };
+      }
+
+      if (name === "no_of_share_required") {
+        const per_share_amount =
+          updatedFormData.investor_share_value / Number(value);
+        return {
+          ...updatedFormData,
+          per_share_amount,
+        };
+      }
+
+      if (name === "investment_start_date" || name === "investment_end_date") {
+        const formattedDate = new Date(value).toLocaleDateString("en-CA"); // 'en-CA' locale formats date as yyyy-mm-dd
+        return {
+          ...updatedFormData,
+          [name]: formattedDate,
+        };
+      }
+      return updatedFormData;
+    });
   };
 
   // function for step navigation
@@ -200,12 +227,85 @@ const AdminAllProjects = () => {
     if (file) {
       setImageFileName(file.name); // set the file name in the state
     }
+    console.log("file", file);
+    setFormData((prev) => ({ ...prev, project_image: file }));
+  };
 
-    setFormData((prev) => ({ ...prev, project_image: e.target.files[0] }));
+  // handle close to close the create project dialog
+  const handleCreateClose = () => {
+    setActiveStep(0);
+    setFormData(initialData);
+    setOpenCreate(false);
   };
 
   // create a project function
-  const handleCreate = () => {};
+  const handleCreate = async () => {
+    const payload = new FormData();
+    const data = {
+      projectName: formData.projectName,
+      projectDescription: formData.projectDescription,
+      businessModel: formData.businessModel,
+      departmentId: formData.departmentId,
+      investment_start_date: formData.investment_start_date,
+      investment_end_date: formData.investment_end_date,
+    };
+
+    const project_contact_info = {
+      hardware_asset_value: formData.hardware_asset_value,
+      software_asset_value: formData.software_asset_value,
+      brand_asset_value: formData.brand_asset_value,
+      property_asset_value: formData.property_asset_value,
+      owner_share_percentage: formData.owner_share_percentage,
+      investor_share_percentage: formData.investor_share_percentage,
+      owner_share_value: formData.owner_share_value,
+      investor_share_value: formData.investor_share_value,
+      owner_profit_loss_percent: formData.owner_profit_loss_percent,
+      investor_profit_loss_percent: formData.investor_profit_loss_percent,
+      owner_approximate_profit: formData.owner_approximate_profit,
+      investor_approximate_profit: formData.investor_approximate_profit,
+      no_of_share_required: formData.no_of_share_required,
+      contract_duration: formData.contract_duration,
+      profit_loss_calc_month: formData.profit_loss_calc_month,
+    };
+
+    for (let key in data) {
+      if (data[key]) {
+        payload.append(key, data[key]);
+      }
+    }
+
+    Object.entries(project_contact_info).forEach(([key, value]) => {
+      payload.append(`project_contact_info[${key}]`, value); // Append each field from the project_contact_info object
+    });
+
+    if (formData.project_image instanceof File) {
+      payload.append("project_image", formData.project_image);
+    }
+
+    console.log("payload", payload);
+
+    try {
+      const response = await fetch(`${baseUrl}/create-project`, {
+        method: "POST",
+        headers: {
+          authorization: token,
+        },
+        credentials: "include",
+        body: payload,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create project");
+      }
+
+      const data = await response.json();
+      console.log("Project created successfully", data);
+      await fetchProjectData();
+      setOpenCreate(false);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   // steps array of sub headings
   const steps = ["General Information", "Project Value", "Contract"];
@@ -259,6 +359,7 @@ const AdminAllProjects = () => {
                   value={formData.projectName}
                   onChange={handleChange}
                   size="small"
+                  required
                 />
               </Grid2>
 
@@ -270,6 +371,7 @@ const AdminAllProjects = () => {
                     name="departmentId"
                     value={formData.departmentId}
                     onChange={handleChange}
+                    required
                   >
                     {departmentData.map((department) => (
                       <MenuItem key={department?.id} value={department?.id}>
@@ -288,6 +390,7 @@ const AdminAllProjects = () => {
                     name="businessModel"
                     value={formData.businessModel}
                     onChange={handleChange}
+                    required
                   >
                     <MenuItem value="service_based">Service Based</MenuItem>
                     <MenuItem value="quantity_based">Quantity Based</MenuItem>
@@ -308,6 +411,7 @@ const AdminAllProjects = () => {
                   value={formData.investment_start_date}
                   onChange={handleChange}
                   size="small"
+                  required
                 />
               </Grid2>
 
@@ -321,6 +425,7 @@ const AdminAllProjects = () => {
                   value={formData.investment_end_date}
                   onChange={handleChange}
                   size="small"
+                  required
                 />
               </Grid2>
 
@@ -332,7 +437,12 @@ const AdminAllProjects = () => {
                   sx={{ borderColor: "#3A1078", color: "#3A1078" }}
                 >
                   Upload Image
-                  <input type="file" hidden onChange={handleImageChange} />
+                  <input
+                    type="file"
+                    hidden
+                    onChange={handleImageChange}
+                    required
+                  />
                 </Button>
               </Grid2>
 
@@ -354,6 +464,7 @@ const AdminAllProjects = () => {
                   value={formData.projectDescription}
                   onChange={handleChange}
                   size="small"
+                  required
                 />
               </Grid2>
             </Grid2>
@@ -363,41 +474,258 @@ const AdminAllProjects = () => {
             <Grid2 container spacing={2}>
               <Grid2 item size={12} sx={{ mt: 4 }}>
                 <TextField
-                  label="Hardware Asset Value"
+                  label="Hardware Asset Value (AED)"
                   name="hardware_asset_value"
                   fullWidth
                   value={formData.hardware_asset_value}
                   onChange={handleChange}
                   size="small"
+                  required
                 />
               </Grid2>
 
               <Grid2 item size={12}>
                 <TextField
-                  label="Software Value"
+                  label="Software Value (AED)"
                   name="software_asset_value"
                   fullWidth
                   value={formData.software_asset_value}
                   onChange={handleChange}
                   size="small"
+                  required
                 />
               </Grid2>
 
               <Grid2 item size={12}>
                 <TextField
-                  label="Brand Value"
+                  label="Brand Value (AED)"
                   name="brand_asset_value"
                   fullWidth
                   value={formData.brand_asset_value}
+                  onChange={handleChange}
+                  size="small"
+                  required
+                />
+              </Grid2>
+
+              <Grid2 item size={12}>
+                <TextField
+                  label="Property Value (AED)"
+                  name="property_asset_value"
+                  fullWidth
+                  value={formData.property_asset_value}
+                  onChange={handleChange}
+                  size="small"
+                  required
+                />
+              </Grid2>
+
+              <Grid2 item size={12}>
+                <TextField
+                  label="Project Value (AED)"
+                  name="actual_project_value"
+                  fullWidth
+                  disabled
+                  value={
+                    Number(formData.hardware_asset_value) +
+                    Number(formData.software_asset_value) +
+                    Number(formData.brand_asset_value) +
+                    Number(formData.property_asset_value)
+                  }
                   onChange={handleChange}
                   size="small"
                 />
               </Grid2>
             </Grid2>
           )}
+
+          {activeStep === 2 && (
+            <Grid2 container spacing={2}>
+              <Grid2 item size={12} sx={{ mt: 4 }}>
+                <TextField
+                  label="Project Value (AED)"
+                  name="actual_project_value"
+                  fullWidth
+                  disabled
+                  value={
+                    Number(formData.hardware_asset_value) +
+                    Number(formData.software_asset_value) +
+                    Number(formData.brand_asset_value) +
+                    Number(formData.property_asset_value)
+                  }
+                  onChange={handleChange}
+                  size="small"
+                />
+              </Grid2>
+
+              <Grid2 item size={{ md: 6, xs: 12 }}>
+                <TextField
+                  label="Owner Share Percentage"
+                  name="owner_share_percentage"
+                  fullWidth
+                  value={formData.owner_share_percentage}
+                  onChange={handleChange}
+                  size="small"
+                  required
+                />
+              </Grid2>
+
+              <Grid2 item size={{ md: 6, xs: 12 }}>
+                <TextField
+                  label="Investor Share Percentage"
+                  name="investor_share_percentage"
+                  fullWidth
+                  value={formData.investor_share_percentage}
+                  onChange={handleChange}
+                  size="small"
+                  disabled
+                />
+              </Grid2>
+
+              <Grid2 item size={{ md: 6, xs: 12 }}>
+                <TextField
+                  label="Owner Share Value (AED)"
+                  name="owner_share_value"
+                  fullWidth
+                  disabled
+                  value={formData.owner_share_value}
+                  onChange={handleChange}
+                  size="small"
+                />
+              </Grid2>
+
+              <Grid2 item size={{ md: 6, xs: 12 }}>
+                <TextField
+                  label="Investor Share Value (AED)"
+                  name="investor_share_value"
+                  fullWidth
+                  disabled
+                  value={formData.investor_share_value}
+                  onChange={handleChange}
+                  size="small"
+                />
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <TextField
+                  label="Owner Profit/Loss Percentage"
+                  name="owner_profit_loss_percent"
+                  fullWidth
+                  value={formData.owner_profit_loss_percent}
+                  onChange={handleChange}
+                  size="small"
+                  required
+                />
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <TextField
+                  label="Investor Profit/Loss Percentage"
+                  name="investor_profit_loss_percent"
+                  fullWidth
+                  value={formData.investor_profit_loss_percent}
+                  onChange={handleChange}
+                  size="small"
+                  disabled
+                />
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <TextField
+                  label="Owner Approximate Profit Value (AED)"
+                  name="owner_approximate_profit"
+                  fullWidth
+                  value={formData.owner_approximate_profit}
+                  onChange={handleChange}
+                  size="small"
+                  required
+                />
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <TextField
+                  label="Investor Approximate Profit Value (AED)"
+                  name="investor_approximate_profit"
+                  fullWidth
+                  value={formData.investor_approximate_profit}
+                  onChange={handleChange}
+                  size="small"
+                  required
+                />
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <TextField
+                  label="No. of Share"
+                  name="no_of_share_required"
+                  fullWidth
+                  value={formData.no_of_share_required}
+                  onChange={handleChange}
+                  size="small"
+                  required
+                />
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <TextField
+                  label="Per Share Amount (AED)"
+                  name="per_share_amount"
+                  fullWidth
+                  disabled
+                  value={formData.per_share_amount}
+                  onChange={handleChange}
+                  size="small"
+                />
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Contract Duration</InputLabel>
+                  <Select
+                    label="Contract Duration"
+                    name="contract_duration"
+                    value={formData.contract_duration}
+                    onChange={handleChange}
+                    required
+                  >
+                    <MenuItem value="3">3 Months</MenuItem>
+                    <MenuItem value="6">6 Months</MenuItem>
+                    <MenuItem value="12">12 Months</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid2>
+
+              <Grid2 item size={6}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Profit/Loss Calculation Month</InputLabel>
+                  <Select
+                    label="Profit/Loss Calculation Month"
+                    name="profit_loss_calc_month"
+                    value={formData.profit_loss_calc_month}
+                    onChange={handleChange}
+                    required
+                  >
+                    <MenuItem value="1">1 Months</MenuItem>
+                    <MenuItem value="3">3 Months</MenuItem>
+                    <MenuItem value="6">6 Months</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid2>
+            </Grid2>
+          )}
         </DialogContent>
 
-        <DialogActions sx={{mr: 3}}>
+        <DialogActions
+          sx={activeStep === 1 ? { mr: 2, mb: 1 } : { mr: 4, mb: 1 }}
+        >
+          <Button
+            size="small"
+            variant="outlined"
+            sx={{ borderColor: "#C7253E", color: "#C7253E" }}
+            onClick={handleCreateClose}
+          >
+            Close
+          </Button>
           {activeStep !== 0 && (
             <Button
               size="small"
@@ -443,7 +771,7 @@ const AdminAllProjects = () => {
               <TableCell>Profit/Loss Calc. Month</TableCell>
               <TableCell>No. of Share</TableCell>
               <TableCell>Sold Share</TableCell>
-              <TableCell>Launch Date</TableCell>
+              <TableCell>Booked Date</TableCell>
               <TableCell>Mature Date</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Actions</TableCell>
@@ -479,14 +807,14 @@ const AdminAllProjects = () => {
                   {project?.project_contact_info?.no_of_share_sold}
                 </TableCell>
                 <TableCell>
-                  {project?.project_contact_info?.launch_date === null
+                  {project?.project_contact_info?.booked_date === null
                     ? "-"
-                    : project?.project_contact_info?.launch_date}
+                    : project?.project_contact_info?.booked_date.slice(0, 10)}
                 </TableCell>
                 <TableCell>
                   {project?.project_contact_info?.mature_date === null
                     ? "-"
-                    : project?.project_contact_info?.mature_date}
+                    : project?.project_contact_info?.mature_date.slice(0, 10)}
                 </TableCell>
                 <TableCell>
                   {project?.status.charAt(0).toUpperCase() +

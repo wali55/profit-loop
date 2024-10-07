@@ -31,6 +31,7 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import Footer from "../../components/common/Footer";
 // base url
 import { baseUrl } from "../../Base";
+import { useSocket } from "../../hook/useSocket";
 
 const InvestorDepositDetails = () => {
   // retrieve token and userId from localStorage
@@ -45,6 +46,8 @@ const InvestorDepositDetails = () => {
     accountHolderName: "",
     region: "",
   };
+
+  const notification = useSocket();
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -224,6 +227,7 @@ const InvestorDepositDetails = () => {
     <>
       {/* Navbar */}
       <InvestorNavbar />
+      {notification?.message}
 
       {/* Card Section */}
       <Grid2 container spacing={3} padding={3}>

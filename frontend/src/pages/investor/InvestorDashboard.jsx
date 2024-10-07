@@ -1,17 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import InvestorNavbar from "../../components/investor/InvestorNavbar";
-import { baseUrl } from "../../Base";
+import { baseUrl, socketUrl } from "../../Base";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
+
 
 const InvestorDashboard = () => {
-  const socket = useMemo(
-    () =>
-      io("http://localhost:4000", {
-        withCredentials: true,
-      }),
-    []
-  );
+  
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -58,19 +52,7 @@ const InvestorDashboard = () => {
     fetchUserData();
   }, [userId]);
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected", socket.id);
-    });
-
-    socket.on("allInvestorNotification", (data) => {
-      console.log("allInvestorNotification", data);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
+  
 
   // show loading message when the data is being fetched
   if (loading) {

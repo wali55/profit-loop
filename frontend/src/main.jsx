@@ -24,6 +24,7 @@ import InvestorWithdrawDetails from "./pages/investor/InvestorWithdrawDetails.js
 // redux
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { SocketProvider } from "./Provider.jsx";
 
 const router = createBrowserRouter([
   // common
@@ -81,11 +82,15 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <SocketProvider>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
+    </SocketProvider>
   </Provider>
 );
+
+// socket provider
 
 // green button color #7ABA78
 // red button color #C7253E

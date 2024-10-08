@@ -26,8 +26,11 @@ import {
   Select,
   MenuItem,
   DialogActions,
+  IconButton,
+  Menu,
 } from "@mui/material";
 import { baseUrl } from "../../Base";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const AdminAllProjects = () => {
   const initialData = {
@@ -76,6 +79,45 @@ const AdminAllProjects = () => {
   const [departmentData, setDepartmentData] = useState([]);
   // to show the image file name
   const [imageFileName, setImageFileName] = useState("");
+  //action button menu
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+
+  // open action button menu
+  const handleMenuOpen = (event, id) => {
+    setSelectedId(id);
+    setAnchorEl(event.currentTarget);
+  };
+
+  // close action button menu
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    selectedId(null);
+  };
+
+  // make available a project
+  const handleAvailable = async () => {
+    try {
+      const response = await fetch(
+        `${baseUrl}/update-project-status/${selectedId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: token,
+          },
+          credentials: "include",
+          body: JSON.stringify({ status: "available" }),
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to available a project");
+      await fetchProjectData();
+      handleMenuClose();
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   // fetch project data function
   const fetchProjectData = async () => {
@@ -97,7 +139,7 @@ const AdminAllProjects = () => {
       if (!response.ok) throw new Error("Failed to get the projects data");
 
       const data = await response.json();
-      setProjectData(data?.data?.results || []); // deposit data
+      setProjectData(data?.data?.results || []); // project data
       setTotalRows(data?.data?.count || 0); // total row count from api
     } catch (error) {
       console.log("Error", error);
@@ -821,9 +863,40 @@ const AdminAllProjects = () => {
                     project?.status.slice(1)}
                 </TableCell>
                 <TableCell>
-                  <Button variant="outlined" size="small">
-                    Make Available
-                  </Button>
+                  <IconButton
+                    aria-label="more"
+                    aria-haspopup="true"
+                    aria-controls="project-menu"
+                    onClick={(e) => handleMenuOpen(e, project?.id)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+
+                  {selectedId === project?.id && (
+                    <Menu
+                      id="project-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleMenuClose}
+                      PaperProps={{
+                        sx: {
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 2px 4px", // Remove shadow completely
+                        },
+                      }}
+                    >
+                      <MenuItem>Preview</MenuItem>
+                      <MenuItem>Revise</MenuItem>
+
+                      {project?.status === "draft" && (
+                        <MenuItem onClick={handleAvailable}>Available</MenuItem>
+                      )}
+
+                      {project?.status === "sold_out" && (
+                        <MenuItem>Book</MenuItem>
+                      )}
+                    </Menu>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

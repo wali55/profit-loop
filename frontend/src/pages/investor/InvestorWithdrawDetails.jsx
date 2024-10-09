@@ -45,7 +45,7 @@ const InvestorWithdrawDetails = () => {
   // loading
   const [loading, setLoading] = useState(true);
 
-  // create deposit from
+  // create withdraw from
   const [open, setOpen] = useState(false);
   const [withdrawType, setWithdrawType] = useState("CASH");
   const [withdrawAmount, setWithdrawAmount] = useState("");
@@ -319,7 +319,7 @@ const InvestorWithdrawDetails = () => {
         </Button>
       </Box>
 
-      {/* Create Deposit Request Dialog form */}
+      {/* Create withdraw Request Dialog form */}
       <Dialog open={open} onClose={handleClose}>
         {/* Dialog Title */}
         <DialogTitle>Withdraw Request</DialogTitle>

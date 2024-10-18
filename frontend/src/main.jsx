@@ -26,6 +26,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { SocketProvider } from "./Provider.jsx";
 import InvestorAllProjects from "./pages/investor/InvestorAllProjects.jsx";
+import InvestorMyProjects from "./pages/investor/InvestorMyProjects.jsx";
 
 const router = createBrowserRouter([
   // common
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
   {
     path: "/investor/projects/all-projects",
     element: <InvestorAllProjects />,
+  },
+  {
+    path: "/investor/projects/my-projects",
+    element: <InvestorMyProjects />,
   },
 ]);
 

@@ -12,25 +12,14 @@ import {
   TablePagination,
   Button,
   Paper,
-  Box,
   Dialog,
   DialogTitle,
   DialogContent,
-  Stepper,
-  StepLabel,
-  Step,
   Grid2,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   DialogActions,
-  IconButton,
-  Menu,
 } from "@mui/material";
 import { baseUrl } from "../../Base";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 // from otp ui library
 import { MuiOtpInput } from "mui-one-time-password-input";
 
@@ -48,7 +37,6 @@ const InvestorAllProjects = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5); // number of rows per page
   const [totalRows, setTotalRows] = useState(0); // total number of rows from API
   //action button menu
-  const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   // open/close invest dialog
   const [openInvest, setOpenInvest] = useState(false);
@@ -58,13 +46,12 @@ const InvestorAllProjects = () => {
   const [projectById, setProjectById] = useState({});
   // share count
   const [shareCount, setShareCount] = useState(1);
-  // state to implement otp
+  // state variables to implement otp
   const [otpDialog, setOtpDialog] = useState(false);
   const [otp, setOtp] = useState("");
   const [counter, setCounter] = useState(60);
   const [resendDisabled, setResendDisabled] = useState(true);
   
-
   // function to fetch project data
   const fetchProjectData = async () => {
     try {

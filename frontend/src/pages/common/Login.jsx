@@ -60,6 +60,7 @@ const Login = () => {
       localStorage.setItem('userId', data.user.id);
       localStorage.setItem('role', data.user.role);
       localStorage.setItem('lastName', data?.user?.lastName);
+      localStorage.setItem('userEmail', data?.user?.email);
 
       // redirect to admin dashboard
       if (data?.user?.role === "ADMIN") {

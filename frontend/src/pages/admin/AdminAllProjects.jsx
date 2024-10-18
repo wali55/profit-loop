@@ -349,6 +349,32 @@ const AdminAllProjects = () => {
     }
   };
 
+  // book a project
+  const handleBook = async () => {
+    console.log('id', selectedId);
+    try {
+      const response = await fetch(`${baseUrl}/booked_project/${selectedId}`, {
+        method: "PUT",
+        headers: {
+          authorization: token,
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ status: "booked" }),
+      });
+
+      if (!response.ok) { 
+        throw new Error("Failed to book project");
+      }
+
+      await response.json();
+      await fetchProjectData();
+      handleMenuClose();
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
+
   // steps array of sub headings
   const steps = ["General Information", "Project Value", "Contract"];
 
@@ -893,7 +919,7 @@ const AdminAllProjects = () => {
                       )}
 
                       {project?.status === "sold_out" && (
-                        <MenuItem>Book</MenuItem>
+                        <MenuItem onClick={handleBook}>Book</MenuItem>
                       )}
                     </Menu>
                   )}

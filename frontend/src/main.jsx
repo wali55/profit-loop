@@ -27,6 +27,7 @@ import { store } from "./redux/store";
 import { SocketProvider } from "./Provider.jsx";
 import InvestorAllProjects from "./pages/investor/InvestorAllProjects.jsx";
 import InvestorMyProjects from "./pages/investor/InvestorMyProjects.jsx";
+import AdminProjectExpenses from "./pages/admin/AdminProjectExpenses.jsx";
 
 const router = createBrowserRouter([
   // common
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/projects/all-projects",
     element: <AdminAllProjects />,
+  },
+  {
+    path: "/admin/projects/project-expenses",
+    element: <AdminProjectExpenses />,
   },
   // investor
   {

@@ -885,7 +885,7 @@ const AdminAllProjects = () => {
                     : project?.project_contact_info?.mature_date.slice(0, 10)}
                 </TableCell>
                 <TableCell>
-                  {project?.status.charAt(0).toUpperCase() +
+                    {project?.status === "sold_out" ? project?.status.split("_").join(" ") : project?.status.charAt(0).toUpperCase() +
                     project?.status.slice(1)}
                 </TableCell>
                 <TableCell>

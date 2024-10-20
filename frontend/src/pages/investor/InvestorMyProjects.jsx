@@ -262,7 +262,7 @@ const InvestorMyProjects = () => {
                 <TableCell>{project?.investor_share_amount}</TableCell>
                 <TableCell>-</TableCell>
                 <TableCell>
-                  {project?.project?.status.charAt(0).toUpperCase() +
+                  {project?.project?.status === "sold_out" ? project?.project?.status.split("_").join(" ") : project?.project?.status.charAt(0).toUpperCase() +
                     project?.project?.status.slice(1)}
                 </TableCell>
                 <TableCell>

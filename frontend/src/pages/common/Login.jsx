@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/images/samarabiz-logo.svg";
+import Logo from "../../assets/images/profit-loop.png";
 import {
   AppBar,
   Toolbar,
@@ -78,14 +78,14 @@ const Login = () => {
       {/* Header Section */}
       <AppBar
         position="static"
-        sx={{ backgroundColor: "#3A1078", padding: "8px 16px" }}
+        sx={{ backgroundColor: "#5F0F40", padding: "8px 16px" }}
       >
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", py: '12px' }}>
           <Box
             component="img"
             src={Logo}
             alt="SamaraBiz Logo"
-            sx={{ height: 60 }}
+            sx={{ width: '100px' }}
           />
           <Button
             variant="outlined"
@@ -150,7 +150,7 @@ const Login = () => {
         <Button
           variant="contained"
           fullWidth
-          sx={{ marginTop: 2, backgroundColor: "#3A1078" }}
+          sx={{ marginTop: 2, backgroundColor: "#5F0F40" }}
           onClick={handleLogin}
         >
           Login

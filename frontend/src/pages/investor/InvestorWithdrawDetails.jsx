@@ -275,7 +275,7 @@ const InvestorWithdrawDetails = () => {
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
               <AccountBalanceWalletIcon
-                sx={{ fontSize: 40, color: "purple" }}
+                sx={{ fontSize: 40, color: "#5F0F40" }}
               />
               <Typography variant="body2" color="textSecondary">
                 Balance
@@ -291,7 +291,7 @@ const InvestorWithdrawDetails = () => {
         <Grid2 item size={{ xs: 12, md: 6 }}>
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <CreditScoreIcon sx={{ fontSize: 40, color: "purple" }} />
+              <CreditScoreIcon sx={{ fontSize: 40, color: "#5F0F40" }} />
               <Typography variant="body2" color="textSecondary">
                 Total Withdraw
               </Typography>
@@ -312,7 +312,7 @@ const InvestorWithdrawDetails = () => {
         <Button
           variant="outlined"
           size="small"
-          sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+          sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           onClick={handleClickOpen}
         >
           New Withdraw
@@ -384,7 +384,7 @@ const InvestorWithdrawDetails = () => {
             variant="outlined"
             size="small"
             onClick={handleSubmit}
-            sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           >
             Send Request
           </Button>
@@ -406,7 +406,7 @@ const InvestorWithdrawDetails = () => {
           <Button size="small" variant="outlined" sx={{borderColor: '#CD5C08', color: '#CD5C08', mb: 2}} onClick={handleResendOtp} disabled={resendDisabled}>
             {`Resend OTP (${counter}s)`}
           </Button>
-          <Button size="small" variant="outlined" sx={{borderColor: '#3A1078', color: '#3A1078', mr: 2, mb: 2}} onClick={handleConfirmOtp}>Confirm</Button>
+          <Button size="small" variant="outlined" sx={{borderColor: '#5F0F40', color: '#5F0F40', mr: 2, mb: 2}} onClick={handleConfirmOtp}>Confirm</Button>
         </DialogActions>
       </Dialog>
 

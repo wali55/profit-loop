@@ -397,7 +397,7 @@ const AdminAllProjects = () => {
         <Button
           variant="outlined"
           size="small"
-          sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+          sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           onClick={() => setOpenCreate(true)}
         >
           Create Project
@@ -502,7 +502,7 @@ const AdminAllProjects = () => {
                   variant="outlined"
                   component="label"
                   fullWidth
-                  sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+                  sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
                 >
                   Upload Image
                   <input
@@ -808,7 +808,7 @@ const AdminAllProjects = () => {
             <Button
               size="small"
               variant="outlined"
-              sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+              sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
               onClick={handleCreate}
             >
               Create Project

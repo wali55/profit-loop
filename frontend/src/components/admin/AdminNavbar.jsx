@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "../../assets/images/samarabiz-logo.svg";
+import Logo from "../../assets/images/profit-loop.png";
 import {
   AppBar,
   Toolbar,
@@ -53,10 +53,10 @@ const AdminNavbar = ({ userData }) => {
   return (
     <>
       {/* Desktop View */}
-      <AppBar position="static" sx={{ backgroundColor: "#3A1078" }}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#5F0F40" }}>
+        <Toolbar sx={{ justifyContent: "space-between", py: "15px" }}>
           {/* logo */}
-          <Box component="img" src={Logo} />
+          <Box component="img" src={Logo} sx={{width: "100px"}} />
 
           {/* Desktop menu */}
           <Box
@@ -90,7 +90,7 @@ const AdminNavbar = ({ userData }) => {
               >
                 All Projects
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 onClick={() => navigate("/admin/projects/contract-details")}
               >
                 Contract Details
@@ -104,11 +104,11 @@ const AdminNavbar = ({ userData }) => {
                 onClick={() => navigate("/admin/projects/archive-projects")}
               >
                 Archive Projects
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
 
             {/* Investors */}
-            <Button
+            {/* <Button
               color="inherit"
               onClick={(e) => handleMenuOpen(e, "investors")}
             >
@@ -142,10 +142,10 @@ const AdminNavbar = ({ userData }) => {
               >
                 Deposit Agreement
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* Financial Details */}
-            <Button
+            {/* <Button
               color="inherit"
               onClick={(e) => handleMenuOpen(e, "financial-details")}
             >
@@ -192,7 +192,7 @@ const AdminNavbar = ({ userData }) => {
               >
                 Platform Withdraw Details
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* Company */}
             <Button
@@ -210,7 +210,7 @@ const AdminNavbar = ({ userData }) => {
               <MenuItem onClick={() => navigate("/admin/company/departments")}>
                 Departments
               </MenuItem>
-              <MenuItem onClick={() => navigate("/admin/company/faq")}>
+              {/* <MenuItem onClick={() => navigate("/admin/company/faq")}>
                 FAQ
               </MenuItem>
               <MenuItem onClick={() => navigate("/admin/company/camp")}>
@@ -235,11 +235,11 @@ const AdminNavbar = ({ userData }) => {
                 onClick={() => navigate("/admin/company/conversion-history")}
               >
                 Conversion History
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
 
             {/* Reports */}
-            <Button
+            {/* <Button
               color="inherit"
               onClick={(e) => handleMenuOpen(e, "reports")}
             >
@@ -287,7 +287,7 @@ const AdminNavbar = ({ userData }) => {
               <MenuItem onClick={() => navigate("/admin/reports/statement")}>
                 Statement
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* Requests */}
             <Button
@@ -312,7 +312,7 @@ const AdminNavbar = ({ userData }) => {
               >
                 Withdraw Requests
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 onClick={() => navigate("/admin/requests/withdraw-transfer")}
               >
                 Withdraw Transfer
@@ -326,7 +326,7 @@ const AdminNavbar = ({ userData }) => {
               </MenuItem>
               <MenuItem onClick={() => navigate("/admin/requests/request-log")}>
                 Request Log
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
           </Box>
 
@@ -377,7 +377,7 @@ const AdminNavbar = ({ userData }) => {
               >
                 <ListItemText primary="All Projects" />
               </ListItem>
-              <ListItem
+              {/* <ListItem
                 button
                 onClick={() => navigate("/admin/projects/contract-details")}
               >
@@ -394,11 +394,11 @@ const AdminNavbar = ({ userData }) => {
                 onClick={() => navigate("/admin/projects/archive-projects")}
               >
                 <ListItemText primary="Archive Projects" />
-              </ListItem>
+              </ListItem> */}
             </List>
           )}
 
-          <ListItem button onClick={(e) => handleMenuOpen(e, "investors")}>
+          {/* <ListItem button onClick={(e) => handleMenuOpen(e, "investors")}>
             <ListItemText primary="Investors" />
             <ArrowForwardIosIcon sx={{ width: 15, marginLeft: 2 }} />
           </ListItem>
@@ -431,9 +431,9 @@ const AdminNavbar = ({ userData }) => {
                 <ListItemText primary="Deposit Agreement" />
               </ListItem>
             </List>
-          )}
+          )} */}
 
-          <ListItem
+          {/* <ListItem
             button
             onClick={(e) => handleMenuOpen(e, "financial-details")}
           >
@@ -483,7 +483,7 @@ const AdminNavbar = ({ userData }) => {
                 <ListItemText primary="Platform Withdraw Details" />
               </ListItem>
             </List>
-          )}
+          )} */}
 
           <ListItem
             button
@@ -502,7 +502,7 @@ const AdminNavbar = ({ userData }) => {
               >
                 <ListItemText primary="Departments" />
               </ListItem>
-              <ListItem
+              {/* <ListItem
                 button
                 onClick={() =>
                   navigate("/admin/company/faq")
@@ -549,11 +549,11 @@ const AdminNavbar = ({ userData }) => {
                 }
               >
                 <ListItemText primary="Conversion History" />
-              </ListItem>
+              </ListItem> */}
             </List>
           )}
 
-          <ListItem button onClick={(e) => handleMenuOpen(e, "reports")}>
+          {/* <ListItem button onClick={(e) => handleMenuOpen(e, "reports")}>
             <ListItemText primary="Reports" />
             <ArrowForwardIosIcon sx={{ width: 15, marginLeft: 2 }} />
           </ListItem>
@@ -608,7 +608,7 @@ const AdminNavbar = ({ userData }) => {
                 <ListItemText primary="Statement" />
               </ListItem>
             </List>
-          )}
+          )} */}
 
           <ListItem button onClick={(e) => handleMenuOpen(e, "requests")}>
             <ListItemText primary="Requests" />
@@ -632,7 +632,7 @@ const AdminNavbar = ({ userData }) => {
               >
                 <ListItemText primary="Withdraw Requests" />
               </ListItem>
-              <ListItem
+              {/* <ListItem
                 button
                 onClick={() =>
                   navigate("/admin/requests/withdraw-transfer")
@@ -655,7 +655,7 @@ const AdminNavbar = ({ userData }) => {
                 }
               >
                 <ListItemText primary="Request Log" />
-              </ListItem>
+              </ListItem> */}
             </List>
           )}
 

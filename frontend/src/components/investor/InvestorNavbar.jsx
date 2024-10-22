@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "../../assets/images/samarabiz-logo.svg";
+import Logo from "../../assets/images/profit-loop.png";
 import {
   AppBar,
   Toolbar,
@@ -56,10 +56,10 @@ const InvestorNavbar = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: "#3A1078" }}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#5F0F40" }}>
+        <Toolbar sx={{ justifyContent: "space-between", py: "12px" }}>
           {/* logo */}
-          <Box component="img" src={Logo} />
+          <Box component="img" src={Logo} sx={{width: '100px'}} />
 
           {/* Desktop menu */}
           <Box
@@ -127,24 +127,24 @@ const InvestorNavbar = () => {
               >
                 Withdraw Details
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 onClick={() =>
                   navigate("/investor/financial-details/transaction-details")
                 }
               >
                 Transaction Details
-              </MenuItem>
-              <MenuItem
+              </MenuItem> */}
+              {/* <MenuItem
                 onClick={() =>
                   navigate("/investor/financial-details/investment-withdraw")
                 }
               >
                 Investment Withdraw
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
 
             {/* Reports */}
-            <Button
+            {/* <Button
               color="inherit"
               onClick={(e) => handleMenuOpen(e, "reports")}
             >
@@ -179,10 +179,10 @@ const InvestorNavbar = () => {
               <MenuItem onClick={() => navigate("/investor/reports/statement")}>
                 Statement
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* Log and history */}
-            <Button
+            {/* <Button
               color="inherit"
               onClick={(e) => handleMenuOpen(e, "log-history")}
             >
@@ -213,10 +213,10 @@ const InvestorNavbar = () => {
               >
                 Request Log
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* Help */}
-            <Button color="inherit" onClick={(e) => handleMenuOpen(e, "help")}>
+            {/* <Button color="inherit" onClick={(e) => handleMenuOpen(e, "help")}>
               Help
             </Button>
             <Menu
@@ -233,7 +233,7 @@ const InvestorNavbar = () => {
               >
                 Terms & Conditions
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* Profile */}
             <Button color="inherit" onClick={(e) => handleMenuOpen(e, 'profile')}>
@@ -334,7 +334,7 @@ const InvestorNavbar = () => {
               >
                 <ListItemText primary="Withdraw Details" />
               </ListItem>
-              <ListItem
+              {/* <ListItem
                 button
                 onClick={() =>
                   navigate("/investor/financial-details/transaction-details")
@@ -349,11 +349,11 @@ const InvestorNavbar = () => {
                 }
               >
                 <ListItemText primary="Investment Withdraw" />
-              </ListItem>
+              </ListItem> */}
             </List>
           )}
 
-          <ListItem button onClick={(e) => handleMenuOpen(e, "reports")}>
+          {/* <ListItem button onClick={(e) => handleMenuOpen(e, "reports")}>
             <ListItemText primary="Reports" />
             <ArrowForwardIosIcon sx={{ width: 15, marginLeft: 2 }} />
           </ListItem>
@@ -421,9 +421,9 @@ const InvestorNavbar = () => {
                 <ListItemText primary="Log Request" />
               </ListItem>
             </List>
-          )}
+          )} */}
 
-          <ListItem button onClick={(e) => handleMenuOpen(e, "help")}>
+          {/* <ListItem button onClick={(e) => handleMenuOpen(e, "help")}>
             <ListItemText primary="Help" />
             <ArrowForwardIosIcon sx={{ width: 15, marginLeft: 2 }} />
           </ListItem>
@@ -439,7 +439,7 @@ const InvestorNavbar = () => {
                 <ListItemText primary="Terms & Conditions" />
               </ListItem>
             </List>
-          )}
+          )} */}
 
           <ListItem button onClick={(e) => handleMenuOpen(e, 'profile')}>
             <ListItemText primary="Profile" />

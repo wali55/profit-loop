@@ -23,71 +23,48 @@ import {
   Work,
   AccountBalance,
   AttachMoney,
-  MoneyOff,
 } from "@mui/icons-material";
 import AdminNavbar from "../../components/admin/AdminNavbar";
+import Footer from "../../components/common/Footer";
+import { baseUrl } from "../../Base";
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
-
-  // state for the open menus
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [openMenu, setOpenMenu] = useState(null);
-  const [status, setStatus] = useState("");
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const token = localStorage.getItem("token");
   const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    // Fetch data from backend and set it in the state (simulate fetch)
-    // Assuming getProjects() fetches the project data
-    fetchProjectData();
-  }, [status]);
-
-  function getProjects() {}
-
+  
   const fetchProjectData = async () => {
-    // Here you'd fetch the projects based on the status filter
-    const data = await getProjects(status); // Replace with actual API call
-    setProjects(data);
+    const response = await fetch(`${baseUrl}/projects`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token
+      },
+      credentials: "include"
+    })
+
+    if (!response.ok) throw new Error("Error occur when try to fetch project data");
+
+    const data = await response.json();
+    setProjects(data?.data);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  useEffect(() => {
+    fetchProjectData();
+  }, []);
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const noOfProjects = projects.length || 0;
 
-  const handleStatusChange = (event) => {
-    setStatus(event.target.value);
-  };
+  let totalProjectValue = 0;
+  let totalInvestmentRequired = 0;
+  let totalInvestedAmount = 0;
 
-  // open the submenus
-  const handleMenuOpen = (event, menuName) => {
-    setAnchorEl(event.currentTarget);
-    setOpenMenu(menuName);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setOpenMenu(null);
-  };
-
-  //logout function
-  const handleLogout = () => {
-    // remove token token, user ID, role from local storage
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("role");
-    localStorage.removeItem("lastName");
-    localStorage.removeItem("userEmail");
-
-    // redirect to login page
-    navigate("/login");
-  };
+  projects.map((project) => {
+    totalProjectValue += project?.project_contact_info?.actual_project_value || 0;
+    totalInvestmentRequired += project?.project_contact_info?.investor_share_value || 0;
+    totalInvestedAmount += project?.project_contact_info?.total_invested_amount || 0;
+  })
 
   return (
     <div>
@@ -100,12 +77,12 @@ const AdminDashboard = () => {
         <Grid2 item size={{ xs: 12, md: 6 }}>
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <Work sx={{ fontSize: 40, color: "purple" }} />
+              <Work sx={{ fontSize: 40, color: "#5F0F40" }} />
               <Typography variant="body2" color="textSecondary">
                 No. Of Projects
               </Typography>
               <Typography variant="h4" fontWeight="bold">
-                25
+                {noOfProjects}
               </Typography>
             </CardContent>
           </Card>
@@ -115,12 +92,12 @@ const AdminDashboard = () => {
         <Grid2 item size={{ xs: 12, md: 6 }}>
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <MoneyOff sx={{ fontSize: 40, color: "purple" }} />
+              <MonetizationOnIcon sx={{ fontSize: 40, color: "#5F0F40" }} />
               <Typography variant="body2" color="textSecondary">
-                Total Withdrawn
+                Total Project Value (AED)
               </Typography>
               <Typography variant="h4" fontWeight="bold">
-                20,000 AED
+                {totalProjectValue}
               </Typography>
             </CardContent>
           </Card>
@@ -130,12 +107,12 @@ const AdminDashboard = () => {
         <Grid2 item size={{ xs: 12, md: 6 }}>
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <AccountBalance sx={{ fontSize: 40, color: "purple" }} />
+              <AccountBalance sx={{ fontSize: 40, color: "#5F0F40" }} />
               <Typography variant="body2" color="textSecondary">
-                Total Investment
+                Total Investment Required (AED)
               </Typography>
               <Typography variant="h4" fontWeight="bold">
-                130,000 AED
+                {totalInvestmentRequired}
               </Typography>
             </CardContent>
           </Card>
@@ -145,91 +122,19 @@ const AdminDashboard = () => {
         <Grid2 item size={{ xs: 12, md: 6 }}>
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <AttachMoney sx={{ fontSize: 40, color: "purple" }} />
+              <AttachMoney sx={{ fontSize: 40, color: "#5F0F40" }} />
               <Typography variant="body2" color="textSecondary">
-                Total Earning
+                Total Invested Amount (AED)
               </Typography>
               <Typography variant="h4" fontWeight="bold">
-                4,000 AED
+                {totalInvestedAmount}
               </Typography>
             </CardContent>
           </Card>
         </Grid2>
       </Grid2>
 
-      {/* Project List */}
-      <Box sx={{ padding: 3 }}>
-        {/* Project List Heading */}
-        <Typography variant="h4" align="center" gutterBottom>
-          Project List
-        </Typography>
-
-        {/* Status Filter */}
-        <Box sx={{ marginBottom: 2 }}>
-          <FormControl
-            fullWidth
-            variant="outlined"
-            sx={{ width: 200 }}
-            size="small"
-          >
-            <InputLabel id="status-label">Status</InputLabel>
-            <Select
-              labelId="status-label"
-              value={status}
-              onChange={handleStatusChange}
-              label="Status"
-            >
-              <MenuItem value="draft">Draft</MenuItem>
-              <MenuItem value="available">Available</MenuItem>
-              <MenuItem value="sold-out">Sold Out</MenuItem>
-              <MenuItem value="booked">Booked</MenuItem>
-              <MenuItem value="matured">Matured</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-
-        {/* Table */}
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Project Name</TableCell>
-                <TableCell>Project Value</TableCell>
-                <TableCell>Project Recalc. Value</TableCell>
-                <TableCell>Invested Amount</TableCell>
-                <TableCell>Investor's Earning</TableCell>
-                <TableCell>Launch Date</TableCell>
-                <TableCell>Mature Date</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              <TableRow>
-                <TableCell>Billing Service September 2024</TableCell>
-                <TableCell>250000 AED</TableCell>
-                <TableCell>200000 AED</TableCell>
-                <TableCell>125000 AED</TableCell>
-                <TableCell>1000 AED</TableCell>
-                <TableCell>09-13-2024</TableCell>
-                <TableCell>09-14-2024</TableCell>
-                <TableCell>Matured</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-
-          {/* Pagination */}
-          <TablePagination
-            component="div"
-            count={projects?.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[10, 25, 50]}
-          />
-        </TableContainer>
-      </Box>
+      <Footer />
     </div>
   );
 };

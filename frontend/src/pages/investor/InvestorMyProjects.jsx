@@ -273,7 +273,7 @@ const InvestorMyProjects = () => {
                       project?.project?.status !== "available" &&
                       project?.project?.status !== "sold_out"
                     }
-                    sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+                    sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
                     onClick={() => {
                       setSelectedProject(project);
                       setOpenWithdraw(true);
@@ -343,7 +343,7 @@ const InvestorMyProjects = () => {
           <Button
             size="small"
             variant="outlined"
-            sx={{ borderColor: "#3A1078", color: "#3A1078", mr: 2, mb: 1 }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40", mr: 2, mb: 1 }}
             onClick={handleWithdraw}
           >
             Withdraw
@@ -377,7 +377,7 @@ const InvestorMyProjects = () => {
           <Button
             size="small"
             variant="outlined"
-            sx={{ borderColor: "#3A1078", color: "#3A1078", mr: 2, mb: 2 }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40", mr: 2, mb: 2 }}
             onClick={handleConfirmOtp}
           >
             Confirm

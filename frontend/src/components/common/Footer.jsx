@@ -22,11 +22,11 @@ const MyFooter = () => {
         mt: 'auto',
         p: 4,
         textAlign: 'center',
-        backgroundColor: '#3A1078', 
+        backgroundColor: '#5F0F40', 
         color: 'white',
       }}
     >
-      <Typography>SamaraBiz © 2024 All Rights Reserved​</Typography>
+      <Typography>Profit Loop © 2024 All Rights Reserved​</Typography>
     </Box>
   );
 };

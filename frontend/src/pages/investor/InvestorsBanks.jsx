@@ -163,7 +163,7 @@ const InvestorsBanks = () => {
         <Button
           variant="outlined"
           size="small"
-          sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+          sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           onClick={handleClickOpen}
         >
           Add Bank
@@ -201,7 +201,7 @@ const InvestorsBanks = () => {
                       onClick={() => handleActiveClick(item?.id)}
                       size="small"
                       variant="outlined"
-                      sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+                      sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
                     >
                       Make Active
                     </Button>
@@ -311,7 +311,7 @@ const InvestorsBanks = () => {
             variant="outlined"
             size="small"
             onClick={handleSubmit}
-            sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           >
             Add Bank
           </Button>

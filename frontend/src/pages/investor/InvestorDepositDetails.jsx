@@ -31,7 +31,6 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import Footer from "../../components/common/Footer";
 // base url
 import { baseUrl } from "../../Base";
-import { useSocket } from "../../hook/useSocket";
 
 const InvestorDepositDetails = () => {
   // retrieve token and userId from localStorage
@@ -47,7 +46,6 @@ const InvestorDepositDetails = () => {
     region: "",
   };
 
-  const notification = useSocket();
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -226,7 +224,6 @@ const InvestorDepositDetails = () => {
     <>
       {/* Navbar */}
       <InvestorNavbar />
-      {notification?.message}
 
       {/* Card Section */}
       <Grid2 container spacing={3} padding={3}>
@@ -235,7 +232,7 @@ const InvestorDepositDetails = () => {
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
               <AccountBalanceWalletIcon
-                sx={{ fontSize: 40, color: "purple" }}
+                sx={{ fontSize: 40, color: "#5F0F40" }}
               />
               <Typography variant="body2" color="textSecondary">
                 Balance
@@ -251,7 +248,7 @@ const InvestorDepositDetails = () => {
         <Grid2 item size={{ xs: 12, md: 6 }}>
           <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <AddCardIcon sx={{ fontSize: 40, color: "purple" }} />
+              <AddCardIcon sx={{ fontSize: 40, color: "#5F0F40" }} />
               <Typography variant="body2" color="textSecondary">
                 Total Deposit
               </Typography>
@@ -275,7 +272,7 @@ const InvestorDepositDetails = () => {
           <Button
             variant="outlined"
             size="small"
-            sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
             onClick={handleClickOpen}
           >
             New Deposit
@@ -303,6 +300,7 @@ const InvestorDepositDetails = () => {
                 />
               </Grid2>
 
+              <Typography variant="caption" sx={{mb: 1}}>Minimum Deposit Amount is 1000</Typography>
               {/* Deposit Type */}
               <Grid2 item size={12} minWidth={300}>
                 <FormControl fullWidth>
@@ -392,7 +390,7 @@ const InvestorDepositDetails = () => {
               variant="outlined"
               size="small"
               onClick={handleSubmit}
-              sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+              sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
             >
               Send Request
             </Button>

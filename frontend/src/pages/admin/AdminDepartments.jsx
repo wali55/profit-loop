@@ -207,7 +207,7 @@ const AdminDepartments = () => {
         <Button
           variant="outlined"
           size="small"
-          sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+          sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           onClick={() => setOpenCreate(true)}
         >
           Add Department
@@ -312,7 +312,7 @@ const AdminDepartments = () => {
             variant="outlined"
             size="small"
             onClick={handleCreate}
-            sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           >
             Add Department
           </Button>
@@ -367,7 +367,7 @@ const AdminDepartments = () => {
             variant="outlined"
             size="small"
             onClick={handleEdit}
-            sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           >
             Save Changes
           </Button>
@@ -396,7 +396,7 @@ const AdminDepartments = () => {
             variant="outlined"
             size="small"
             onClick={handleDelete}
-            sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           >
             Yes
           </Button>

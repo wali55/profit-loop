@@ -21,10 +21,6 @@ import InvestorDashboard from "./pages/investor/InvestorDashboard.jsx";
 import InvestorDepositDetails from "./pages/investor/InvestorDepositDetails.jsx";
 import InvestorsBanks from "./pages/investor/InvestorsBanks.jsx";
 import InvestorWithdrawDetails from "./pages/investor/InvestorWithdrawDetails.jsx";
-// redux
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import { SocketProvider } from "./Provider.jsx";
 import InvestorAllProjects from "./pages/investor/InvestorAllProjects.jsx";
 import InvestorMyProjects from "./pages/investor/InvestorMyProjects.jsx";
 import AdminProjectExpenses from "./pages/admin/AdminProjectExpenses.jsx";
@@ -96,19 +92,16 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <SocketProvider>
       <RouterProvider router={router}>
         <App />
       </RouterProvider>
-    </SocketProvider>
-  </Provider>
 );
 
 // socket provider
 
 // green button color #7ABA78
 // red button color #C7253E
-// primary violet color #3A1078
+// primary violet color #5F0F40
+// primary brick red color #5F0F40
 // orange #CD5C08
-// icon color purple
+// icon color #5F0F40

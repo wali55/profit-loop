@@ -146,7 +146,7 @@ const AdminProjectExpenses = () => {
         <Button
           variant="outlined"
           size="small"
-          sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+          sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           onClick={() => setOpenCreate(true)}
         >
           Create Expense
@@ -256,7 +256,7 @@ const AdminProjectExpenses = () => {
           <Button
             variant="outlined"
             size="small"
-            sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+            sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
           >
             Send Request
           </Button>

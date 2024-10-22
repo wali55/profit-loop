@@ -11,7 +11,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/images/samarabiz-logo.svg";
+import Logo from "../../assets/images/profit-loop.png";
 import { useState } from "react";
 import axios from "axios";
 
@@ -61,14 +61,14 @@ const Register = () => {
       {/* Header Section */}
       <AppBar
         position="static"
-        sx={{ backgroundColor: "#3A1078", padding: "8px 16px" }}
+        sx={{ backgroundColor: "#5F0F40", padding: "8px 16px" }}
       >
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", py: "12px" }}>
           <Box
             component="img"
             src={Logo}
             alt="SamaraBiz logo"
-            sx={{ height: 60 }}
+            sx={{ width: '100px' }}
           />
           <Button
             variant="outlined"
@@ -82,7 +82,7 @@ const Register = () => {
       </AppBar>
 
       {/* Registration Form Section */}
-      <Container sx={{ mt: 10 }}>
+      <Container sx={{ mt: 10, mb: 10 }}>
         <Box
           component="form"
           sx={{
@@ -173,7 +173,7 @@ const Register = () => {
 
           <Button
             variant="contained"
-            sx={{ backgroundColor: "#3A1078" }}
+            sx={{ backgroundColor: "#5F0F40" }}
             onClick={handleRegister}
           >
             Register

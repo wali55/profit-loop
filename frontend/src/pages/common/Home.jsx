@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/images/samarabiz-logo.svg";
+import Logo from "../../assets/images/profit-loop.png";
 import people1 from "../../assets/images/people1.jpg";
 import people2 from "../../assets/images/people2.jpg";
 import people3 from "../../assets/images/people3.jpg";
@@ -11,53 +11,94 @@ import group from "../../assets/images/group.png";
 import project1 from "../../assets/images/project1.jpg";
 import project2 from "../../assets/images/project2.jpg";
 import project3 from "../../assets/images/project3.jpg";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 
 const Home = () => {
-  
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
     navigate("/login");
-  }
-
+  };
 
   return (
     <div>
       {/* nav section */}
-      <nav className="bg-violet-950 flex justify-between items-center px-16 py-2 border-b-2 border-white fixed w-full">
+      <nav className="bg-[#5F0F40] flex justify-between items-center px-16 border-b-2 border-white fixed w-full py-[12px]">
         {/* Logo */}
         <div>
-          <img src={Logo} alt="logo" />
+          <img src={Logo} alt="logo" className="w-[100px]" />
         </div>
         {/* menu buttons */}
         <div className="text-white flex text-sm font-semibold">
-          <ul className="mx-2 cursor-pointer">
+          <ul
+            className="mx-2 cursor-pointer"
+            onClick={() =>
+              document
+                .getElementById("project")
+                .scrollIntoView({ behavior: "smooth" })
+            }
+          >
             <li>OUR PROJECT</li>
           </ul>
-          <ul className="mx-2 cursor-pointer">
+          <ul
+            className="mx-2 cursor-pointer"
+            onClick={() =>
+              document
+                .getElementById("how-we-work")
+                .scrollIntoView({ behavior: "smooth" })
+            }
+          >
             <li>HOW WE WORK</li>
           </ul>
-          <ul className="mx-2 cursor-pointer">
+          <ul
+            className="mx-2 cursor-pointer"
+            onClick={() =>
+              document
+                .getElementById("investors")
+                .scrollIntoView({ behavior: "smooth" })
+            }
+          >
             <li>OUR INVESTORS</li>
           </ul>
-          <ul className="mx-2 cursor-pointer">
+          <ul
+            className="mx-2 cursor-pointer"
+            onClick={() =>
+              document
+                .getElementById("investments")
+                .scrollIntoView({ behavior: "smooth" })
+            }
+          >
             <li>INVESTMENTS</li>
           </ul>
-          <ul className="mx-2 cursor-pointer">
+          <ul
+            className="mx-2 cursor-pointer"
+            onClick={() =>
+              document
+                .getElementById("nusrah-funding")
+                .scrollIntoView({ behavior: "smooth" })
+            }
+          >
             <li>NUSRAH FUNDING</li>
           </ul>
         </div>
         {/* sign in button */}
         <div>
-          <Button onClick={handleLoginClick}  variant="outlined" size="small" sx={{borderColor: 'white', color: 'white'}} >
-            LOGIN 
+          <Button
+            onClick={handleLoginClick}
+            variant="outlined"
+            size="small"
+            sx={{ borderColor: "white", color: "white" }}
+          >
+            LOGIN
           </Button>
         </div>
       </nav>
 
       {/* Mission Section */}
-      <section className="bg-slate-200 px-16 pt-44 pb-28 text-center">
+      <section
+        id="mission"
+        className="bg-slate-200 px-16 pt-44 pb-28 text-center"
+      >
         {/* Mission Heading */}
         <h1 className="text-5xl font-semibold mb-8">OUR MISSION</h1>
         {/* Mission Description */}
@@ -65,7 +106,7 @@ const Home = () => {
           Welcome to our partnership business, where our mission is to create
           meaningful and long-lasting partnerships that drive growth and success
           for both parties involved. We believe that collaboration is the key to
-          achieving our goals and creating a better future for all. SamaraBiz
+          achieving our goals and creating a better future for all. Profit Loop
           funding project is a way of raising money to finance a particular one
           project or multiple projects and businesses. It enables fundraisers to
           collect money from a large number of people via online platform then
@@ -87,7 +128,7 @@ const Home = () => {
       </section>
 
       {/* Our Projects Section */}
-      <section className="px-16 py-28 text-center">
+      <section id="project" className="px-16 py-28 text-center">
         {/* Projects Header */}
         <h1 className="text-3xl font-semibold mb-8">OUR PROJECTS</h1>
         {/* Projects Cards */}
@@ -198,7 +239,7 @@ const Home = () => {
       </section>
 
       {/* How We Work Section */}
-      <section className="bg-slate-200 px-16 py-28 text-center">
+      <section id="how-we-work" className="bg-slate-200 px-16 py-28 text-center">
         {/* How We Work Heading */}
         <h1 className="text-3xl font-semibold mb-8">HOW WE WORK</h1>
         {/* How We Work Description */}
@@ -240,13 +281,13 @@ const Home = () => {
           and reach your goals.
         </p>
         <p>
-          SamaraBiz is most often used in startup companies or growing
+          Profit Loop is most often used in startup companies or growing
           businesses as a way of accessing alternative funds.
         </p>
       </section>
 
       {/* Our Investors Section */}
-      <section className="px-16 py-28 text-center">
+      <section id="investors" className="px-16 py-28 text-center">
         {/* Our Investors Heading */}
         <h1 className="text-3xl font-semibold mb-8">OUR INVESTORS</h1>
         {/* Our Investors Cards */}
@@ -305,7 +346,7 @@ const Home = () => {
       </section>
 
       {/* Investment Summary Section */}
-      <section className="bg-slate-200 px-16 py-28 text-center">
+      <section id="investments" className="bg-slate-200 px-16 py-28 text-center">
         {/* Investment Summary Heading */}
         <h1 className="text-3xl font-semibold mb-8">INVESTMENT SUMMARY</h1>
         {/* Investment Summary Cards */}
@@ -335,7 +376,7 @@ const Home = () => {
       </section>
 
       {/* Funding Section */}
-      <section className="px-16 py-28 text-center">
+      <section id="nusrah-funding" className="px-16 py-28 text-center">
         {/* Funding Section Heading */}
         <h1 className="text-3xl font-semibold mb-8">NUSRAH FUNDING</h1>
         {/* Funding Section Description */}
@@ -376,7 +417,7 @@ const Home = () => {
       </section>
 
       {/* footer */}
-      <footer className="px-16 pt-28 bg-indigo-950 text-white">
+      <footer className="px-16 pt-28 bg-[#5F0F40] text-white">
         <div className="flex justify-between">
           <div>
             <h3 className="text-xl font-semibold mb-2">Our Location</h3>
@@ -387,7 +428,7 @@ const Home = () => {
               <p>+880 1823432432</p>
             </div>
             <div>
-              <p>support@samarabizfunding.com</p>
+              <p>support@profitloop.com</p>
             </div>
             <div>
               <p>Bangladesh</p>
@@ -424,21 +465,21 @@ const Home = () => {
           <div>
             <h3 className="text-xl font-semibold mb-2">Social Networks</h3>
             <div>
-              <p>facebook.com/samarabizfunding</p>
+              <p>facebook.com/profitloop</p>
             </div>
             <div>
-              <p>twitter.com/samarabizfunding</p>
+              <p>twitter.com/profitloop</p>
             </div>
             <div>
               <p>+880 1823432432</p>
             </div>
             <div>
-              <p>youtube.com/samarabizfunding</p>
+              <p>youtube.com/profitloop</p>
             </div>
           </div>
         </div>
         <div className="text-white mt-28 text-center pb-4">
-          <p>SAMARABIZ-FUNDING © 2024 ALL RIGHTS RESERVED​</p>
+          <p>Profit Loop © 2024 ALL RIGHTS RESERVED​</p>
         </div>
       </footer>
     </div>

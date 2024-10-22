@@ -338,7 +338,7 @@ const InvestorAllProjects = () => {
                   <Button
                     size="small"
                     variant="outlined"
-                    sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+                    sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
                     onClick={() => handleOpenInvest(project?.id)}
                   >
                     Invest
@@ -424,7 +424,7 @@ const InvestorAllProjects = () => {
           <Button
           size="small"
           variant="outlined"
-          sx={{ borderColor: "#3A1078", color: "#3A1078" }}
+          sx={{ borderColor: "#5F0F40", color: "#5F0F40" }}
             onClick={handleInvest}
           >
             Invest
@@ -447,7 +447,7 @@ const InvestorAllProjects = () => {
           <Button size="small" variant="outlined" sx={{borderColor: '#CD5C08', color: '#CD5C08', mb: 2}} onClick={handleResendOtp} disabled={resendDisabled}>
             {`Resend OTP (${counter}s)`}
           </Button>
-          <Button size="small" variant="outlined" sx={{borderColor: '#3A1078', color: '#3A1078', mr: 2, mb: 2}} onClick={handleConfirmOtp}>Confirm</Button>
+          <Button size="small" variant="outlined" sx={{borderColor: '#5F0F40', color: '#5F0F40', mr: 2, mb: 2}} onClick={handleConfirmOtp}>Confirm</Button>
         </DialogActions>
       </Dialog>
 
